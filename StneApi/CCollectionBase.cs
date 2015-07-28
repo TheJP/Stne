@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CCollectionBase
+    class CCollectionBase : Object
     {
         public Integer Capacity { get; set; }
         public Integer Count { get; set; }
@@ -15,7 +15,7 @@ namespace StneApi
         public void AddRange(ICollection col) { }
         public Boolean CheckIndex(Integer Index) { return null; }
         public void Clear() { }
-        public void CopyTo(Array Array, Integer Index) { }
+        public void CopyTo<T>(Array<T> Array, Integer Index) where T : class, StneType { }
         public IEnumerator GetEnumerator() { return null; }
         public void InsertRange(Integer Index, ICollection col) { }
         public Boolean IsEmpty() { return null; }

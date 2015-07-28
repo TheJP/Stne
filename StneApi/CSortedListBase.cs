@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CSortedListBase
+    class CSortedListBase : Object
     {
         public Integer Capacity { get; set; }
         public Integer Count { get; set; }
@@ -16,7 +16,7 @@ namespace StneApi
         public ICollection Values { get; set; }
         public void AddHash(IDictionary HashTable, Boolean OverWriteIfKeyExists) { }
         public void Clear() { }
-        public void CopyTo(Array array, Integer index) { }
+        public void CopyTo<T>(Array<T> array, Integer index) where T : class, StneType { }
         public void GetEnumerator() { }
         public IList GetKeyList() { return null; }
         public IList GetValueList() { return null; }

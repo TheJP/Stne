@@ -24,7 +24,7 @@ namespace StneApi
         public Boolean Contains(Object key) { return null; }
         public Boolean ContainsKey(Object key) { return null; }
         public Boolean ContainsValue(Object value) { return null; }
-        public void CopyTo(Array array, Integer arrayIndex) { }
+        public void CopyTo<T>(Array<T> array, Integer arrayIndex) where T : class, StneType { }
         public Object GetByIndex(Integer index) { return null; }
         public void GetEnumerator() { }
         public Object GetKey(Integer index) { return null; }

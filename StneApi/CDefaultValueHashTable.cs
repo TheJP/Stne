@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CDefaultValueHashTable
+    class CDefaultValueHashTable : Object
     {
         public Object DefaultValue;
         public Integer Count { get; set; }
@@ -21,7 +21,7 @@ namespace StneApi
         public Boolean Contains(Object key) { return null; }
         public Boolean ContainsKey(Object key) { return null; }
         public Boolean ContainsValue(Object value) { return null; }
-        public void CopyTo(Array array, Integer arrayIndex) { }
+        public void CopyTo<T>(Array<T> array, Integer arrayIndex) where T : class, StneType { }
         public void GetEnumerator() { }
         public void OnDeserialization(Object sender) { }
         public void Remove(Object key) { }

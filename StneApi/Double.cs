@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class Double
+    class Double : StneValueType
     {
         public static Double Epsilon;
         public static Double MaxValue;
@@ -25,6 +25,8 @@ namespace StneApi
         public static Boolean op_LessThan(Double left, Double right) { return null; }
         public static Boolean op_LessThanOrEqual(Double left, Double right) { return null; }
         public static Double Parse(String s) { return null; }
+        public static implicit operator double(Double o) => 0;
+        public static implicit operator Double(double o) => null;
     }
 }
 

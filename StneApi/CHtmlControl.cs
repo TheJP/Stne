@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CHtmlControl
+    class CHtmlControl : Object
     {
         public CHtmlControlList Controls { get; set; }
         public Integer Count { get; set; }
@@ -27,7 +27,7 @@ namespace StneApi
         public String Width { get; set; }
         public CHtmlControl this[Integer Index] { get { return null; } set { } }
         public void Add(Object obj) { }
-        public void CopyTo(Array array, Integer index) { }
+        public void CopyTo<T>(Array<T> array, Integer index) where T : class, StneType { }
         public IEnumerator GetEnumerator() { return null; }
         public Boolean HasControls() { return null; }
         public void Insert(Integer Index, CHtmlControl Child) { }

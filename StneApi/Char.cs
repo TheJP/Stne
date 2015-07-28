@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class Char
+    class Char : StneValueType
     {
         public static Char MaxValue;
         public static Char MinValue;
@@ -34,6 +34,8 @@ namespace StneApi
         public static Char ToLowerInvariant(Char c) { return null; }
         public static Char ToUpper(Char c) { return null; }
         public static Char ToUpperInvariant(Char c) { return null; }
+        public static implicit operator char(Char o) => (char)0;
+        public static implicit operator Char(char o) => null;
     }
 }
 
