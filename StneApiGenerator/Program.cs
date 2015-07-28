@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using HtmlAgilityPack;
 using System.IO;
+using static StneApiGenerator.ElementType;
 
 namespace StneApiGenerator
 {
@@ -27,12 +28,16 @@ namespace StneApiGenerator
         /// <param name="name">type name</param>
         private void SaveType(string name)
         {
+            Console.WriteLine($"Creating {name}");
             var type = TypeInformation.Load(name, WebClient.DownloadString($"{Url}{LinkSuffix}{name}"));
             var file = new FileInfo($"{OutputPath}\\{name}.cs");
+            //Function to convert parameter list
+            Func<List<TypeInformation.Element>, string> parametersToString = ps =>
+                String.Join(", ", ps.Select(p => $"{p.Type ?? "object"} {p.Name}").ToArray());
             using (var streamWriter = new StreamWriter(file.Open(FileMode.CreateNew, FileAccess.Write, FileShare.None)))
             {
                 var writer = new CodeWriter(streamWriter);
-                writer.WriteLine();
+                //Namespace and header
                 writer.WriteLine($"namespace {OutputNamespace}");
                 writer.WriteLine("{");
                 writer.IdentGrade = 1;
@@ -40,12 +45,39 @@ namespace StneApiGenerator
                 writer.WriteLine("/// This is a type, which was automatically generated for the StneApi.");
                 writer.WriteLine($"/// More Infos and the source code can be found here: {ProjectUrl}");
                 writer.WriteLine("/// </summary>");
-                var typeString = type.Type == "Enum" ? "class" : type.Type.ToLower();
+                //Class definition
+                var typeString = type.Type.ToLower()
+                    .Replace("enum", "class")
+                    .Replace("structure", "struct");
                 var inheritance = type.Inheritance == null ? "" : $" : {type.Inheritance}";
                 writer.WriteLine($"{typeString} {type.TypeName}{inheritance}");
                 writer.WriteLine("{");
                 writer.IdentGrade = 2;
-
+                //Attributes
+                foreach(var attribute in type.Elements.Where(e => e.ElementType == Variable))
+                {
+                    writer.WriteLine($"public {(attribute.Static ? "static " : "")}{attribute.Type ?? "object"} {attribute.Name};");
+                }
+                //Properties
+                foreach (var property in type.Elements.Where(e => e.ElementType == Property))
+                {
+                    writer.WriteLine($"public {(property.Static ? "static " : "")}{property.Type ?? "object"} {property.Name} {{ get; set; }}");
+                }
+                //Indexers
+                foreach (var indexer in type.Elements.Where(e => e.ElementType == Indexer))
+                {
+                    writer.WriteLine($"public {indexer.Type} this[{parametersToString(indexer.ParameterList)}] {{ get; set; }}");
+                }
+                //Methods
+                foreach (var method in type.Elements.Where(e => e.ElementType == Method))
+                {
+                    writer.WriteLine($"public {(method.Static ? "static " : "")}{method.Type ?? "void"} {method.Name}({parametersToString(method.ParameterList)}) {{ {(method.Type == null ? "" : "return null; ")}}}");
+                }
+                //Constructors
+                foreach (var constructor in type.Elements.Where(e => e.ElementType == Constructor))
+                {
+                    writer.WriteLine($"public {type.TypeName}({parametersToString(constructor.ParameterList)}) {{ }}");
+                }
                 writer.IdentGrade = 1;
                 writer.WriteLine("}");
                 writer.IdentGrade = 0;
