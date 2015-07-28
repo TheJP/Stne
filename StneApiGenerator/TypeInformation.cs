@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static StneApiGenerator.ElementType;
 
 namespace StneApiGenerator
 {
-    enum ElementType { Variable, Property, Method, Constructor }
+    enum ElementType { Parameter, Variable, Property, Method, Constructor }
     /// <summary>
     /// Represents a Type. It includes logic to convert stne html to type information.
     /// </summary>
@@ -15,8 +17,11 @@ namespace StneApiGenerator
     {
         public string TypeName { get; }
         public string Type { get; private set; }
-        public List<Element> Elements { get; }
-        public string Inheritance { get; private set; } = "";
+        public List<Element> Elements { get; } = new List<Element>();
+        public string Inheritance { get; private set; }
+
+        private static readonly Regex ParameterRegex = new Regex("([a-zA-Z]+[a-zA-Z0-9]*) As", RegexOptions.CultureInvariant);
+        private static readonly Regex StripEncodings = new Regex("&[a-zA-Z0-9]+;", RegexOptions.CultureInvariant);
 
         private TypeInformation(string name)
         {
@@ -26,6 +31,7 @@ namespace StneApiGenerator
 
         public static TypeInformation Load(string name, string html)
         {
+            html = StripEncodings.Replace(html, "");
             var result = new TypeInformation(name);
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
@@ -44,12 +50,80 @@ namespace StneApiGenerator
             cursor = cursor.NextSibling; //Set cursor to first element
 
             //Get type elements
-            //while(cursor.Name != "hr")
-            //{
+            while (cursor.Name != "hr")
+            {
+                var element = new Element();
+                var keywords = cursor.InnerText.Trim().Split(' ');
+                element.Static = keywords[0] == "Static";
+                element.ElementType = StringToElementType(keywords.Last());
 
-            //}
+                //Read name of non constructor elements
+                if(element.ElementType != Constructor)
+                {
+                    cursor = cursor.NextSibling;
+                    element.Name = cursor.InnerText.Trim();
+                }
+
+                //Read parameter list of methods and constructors
+                if (element.ElementType == Method || element.ElementType == Constructor)
+                {
+                    element.ParameterList = new List<Element>();
+                    cursor = cursor.NextSibling;
+                    while (!cursor.InnerText.Trim().EndsWith(") As") && !cursor.InnerText.Contains("()"))
+                    {
+                        var parameter = new Element();
+                        parameter.ElementType = Parameter;
+                        parameter.Name = ParameterRegex.Match(cursor.InnerText).Groups[1].Value;
+                        cursor = cursor.NextSibling;
+                        parameter.Type = cursor.InnerText.Trim();
+                        cursor = cursor.NextSibling;
+                        element.ParameterList.Add(parameter);
+                    }
+                }
+                else
+                {
+                    cursor = cursor.NextSibling;
+                }
+
+                var hasType = cursor.InnerText.Contains("As");
+                if (hasType)
+                {
+                    cursor = cursor.NextSibling;
+                    element.Type = cursor.InnerText.Trim();
+                    cursor = cursor.NextSibling;
+                }
+                cursor = cursor.NextSibling;
+                var add = cursor.InnerText.Trim() != "(geerbt)";
+
+                if (add)
+                {
+                    result.Elements.Add(element);
+                    if (!hasType) { cursor = cursor.NextSibling; }
+                }
+                else
+                {
+                    cursor = cursor.NextSibling.NextSibling;
+                }
+            }
 
             return result;
+        }
+
+        /// <summary>
+        /// Converts a type string to the correct enum value.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private static ElementType StringToElementType(string type)
+        {
+            switch (type)
+            {
+                case "New": return Constructor;
+                case "Function": return Method;
+                case "Property": return Property;
+                case "Var": return Variable;
+                default: throw new ArgumentException($"'{nameof(type)}' is invalid");
+            }
         }
 
         /// <summary>
@@ -57,14 +131,14 @@ namespace StneApiGenerator
         /// </summary>
         public class Element
         {
-            public bool Static { get; }
-            public ElementType ElementType { get; }
-            public string Name { get; }
-            public string Type { get; }
+            public bool Static { get; set; }
+            public ElementType ElementType { get; set; }
+            public string Name { get; set; }
+            public string Type { get; set; }
             /// <summary>
             /// Optional parameter list. Only available for ElementType Method and Constructor.
             /// </summary>
-            public List<Element> ParameterList { get; }
+            public List<Element> ParameterList { get; set; }
         }
     }
 }

@@ -41,7 +41,7 @@ namespace StneApiGenerator
                 writer.WriteLine($"/// More Infos and the source code can be found here: {ProjectUrl}");
                 writer.WriteLine("/// </summary>");
                 var typeString = type.Type == "Enum" ? "class" : type.Type.ToLower();
-                var inheritance = type.Inheritance == "" ? "" : $" : {type.Inheritance}";
+                var inheritance = type.Inheritance == null ? "" : $" : {type.Inheritance}";
                 writer.WriteLine($"{typeString} {type.TypeName}{inheritance}");
                 writer.WriteLine("{");
                 writer.IdentGrade = 2;
