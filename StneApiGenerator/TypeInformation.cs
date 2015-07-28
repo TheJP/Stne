@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace StneApiGenerator
     {
         public string TypeName { get; }
         public string Type { get; private set; }
-        public List<Element> Elements { get; } = new List<Element>();
+        public List<Element> Elements { get; private set; } = new List<Element>();
         public string Inheritance { get; private set; }
 
         private static readonly Regex ParameterRegex = new Regex("([a-zA-Z]+[a-zA-Z0-9]*) As", RegexOptions.CultureInvariant);
@@ -116,6 +117,9 @@ namespace StneApiGenerator
                 }
             }
 
+            //Make identifiers distinct, because the api seems to have duplicate entries sometimes
+            result.Elements = result.Elements.Distinct(new ElementComparer()).ToList();
+
             return result;
         }
 
@@ -155,6 +159,15 @@ namespace StneApiGenerator
             /// Optional parameter list. Only available for ElementType Method and Constructor.
             /// </summary>
             public List<Element> ParameterList { get; set; }
+        }
+
+        /// <summary>
+        /// Implement comparer for Elements, using its Name Property.
+        /// </summary>
+        private class ElementComparer : IEqualityComparer<Element>
+        {
+            public bool Equals(Element x, Element y) => x.Name == y.Name;
+            public int GetHashCode(Element obj) => obj.Name?.GetHashCode() ?? 0;
         }
     }
 }

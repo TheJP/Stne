@@ -48,7 +48,7 @@ namespace StneApiGenerator
                 //Class definition
                 var typeString = type.Type.ToLower()
                     .Replace("enum", "class")
-                    .Replace("structure", "struct");
+                    .Replace("structure", "class");
                 var inheritance = type.Inheritance == null ? "" : $" : {type.Inheritance}";
                 writer.WriteLine($"{typeString} {type.TypeName}{inheritance}");
                 writer.WriteLine("{");
@@ -61,17 +61,19 @@ namespace StneApiGenerator
                 //Properties
                 foreach (var property in type.Elements.Where(e => e.ElementType == Property))
                 {
-                    writer.WriteLine($"public {(property.Static ? "static " : "")}{property.Type ?? "object"} {property.Name} {{ get; set; }}");
+                    writer.WriteLine($"{(type.Type != "Interface" ? "public " : "")}{(property.Static ? "static " : "")}{property.Type ?? "object"} {property.Name} {{ get; set; }}");
                 }
                 //Indexers
                 foreach (var indexer in type.Elements.Where(e => e.ElementType == Indexer))
                 {
-                    writer.WriteLine($"public {indexer.Type} this[{parametersToString(indexer.ParameterList)}] {{ get; set; }}");
+                    writer.WriteLine($"{(type.Type != "Interface" ? "public " : "")}{indexer.Type} this[{parametersToString(indexer.ParameterList)}] {{ get" +
+                        (type.Type == "Interface" ? "; set; }" : $" {{ return null; }} set {{ }} }}"));
                 }
                 //Methods
                 foreach (var method in type.Elements.Where(e => e.ElementType == Method))
                 {
-                    writer.WriteLine($"public {(method.Static ? "static " : "")}{method.Type ?? "void"} {method.Name}({parametersToString(method.ParameterList)}) {{ {(method.Type == null ? "" : "return null; ")}}}");
+                    writer.WriteLine($"{(type.Type != "Interface" ? "public " : "")}{(method.Static ? "static " : "")}{method.Type ?? "void"} {method.Name}({parametersToString(method.ParameterList)})" +
+                        (type.Type == "Interface" ? ";" : $" {{ {(method.Type == null ? "" : "return null; ")}}}"));
                 }
                 //Constructors
                 foreach (var constructor in type.Elements.Where(e => e.ElementType == Constructor))
@@ -89,6 +91,7 @@ namespace StneApiGenerator
         static void Main(string[] args)
         {
             var program = new Program();
+            program.WebClient.Encoding = Encoding.UTF8;
 
             //Download main list of elements (classes, enums, structs, ...)
             var data = program.WebClient.DownloadString($"{Url}{RegularSuffix}");
