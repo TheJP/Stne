@@ -19,9 +19,16 @@ namespace StneApiGenerator
 
         const string OutputNamespace = "StneApi";
 
+        private WebClient WebClient { get; } = new WebClient();
+
+        /// <summary>
+        /// Downloads the type description from stne.net and saves it as C# type to the file system.
+        /// </summary>
+        /// <param name="name">type name</param>
         private void SaveType(string name)
         {
-            var file = new FileInfo($"{name}.cs");
+            var type = TypeInformation.Load(name, WebClient.DownloadString($"{Url}{LinkSuffix}{name}"));
+            var file = new FileInfo($"{OutputPath}\\{name}.cs");
             using (var streamWriter = new StreamWriter(file.Open(FileMode.CreateNew, FileAccess.Write, FileShare.None)))
             {
                 var writer = new CodeWriter(streamWriter);
@@ -33,7 +40,14 @@ namespace StneApiGenerator
                 writer.WriteLine("/// This is a type, which was automatically generated for the StneApi.");
                 writer.WriteLine($"/// More Infos and the source code can be found here: {ProjectUrl}");
                 writer.WriteLine("/// </summary>");
-                writer.WriteLine("");
+                var typeString = type.Type == "Enum" ? "class" : type.Type.ToLower();
+                var inheritance = type.Inheritance == "" ? "" : $" : {type.Inheritance}";
+                writer.WriteLine($"{typeString} {type.TypeName}{inheritance}");
+                writer.WriteLine("{");
+                writer.IdentGrade = 2;
+
+                writer.IdentGrade = 1;
+                writer.WriteLine("}");
                 writer.IdentGrade = 0;
                 writer.WriteLine("}");
                 writer.WriteLine();
@@ -45,7 +59,7 @@ namespace StneApiGenerator
             var program = new Program();
 
             //Download main list of elements (classes, enums, structs, ...)
-            var data = new WebClient().DownloadString($"{Url}{RegularSuffix}");
+            var data = program.WebClient.DownloadString($"{Url}{RegularSuffix}");
             var doc = new HtmlDocument();
             doc.LoadHtml(data);
 
@@ -67,36 +81,6 @@ namespace StneApiGenerator
             foreach(var type in types)
             {
                 program.SaveType(type);
-            }
-        }
-
-        /// <summary>
-        /// Makes the code generation easier.
-        /// </summary>
-        private class CodeWriter
-        {
-            const int IdentSize = 4;
-            private string ident = "";
-
-            public StreamWriter Writer { get; }
-            public int IdentGrade
-            {
-                get { return ident.Length / IdentSize; }
-                set { ident = Ident(value); }
-            }
-
-            private string Ident(int grade) => new string(' ', IdentSize * grade);
-
-            public CodeWriter(StreamWriter writer)
-            {
-                Writer = writer;
-            }
-
-            public void Write(string content) => Writer.Write(content);
-            public void WriteLine() => Writer.WriteLine();
-            public void WriteLine(string line)
-            {
-                Writer.WriteLine($"{ident}{line}");
             }
         }
     }
