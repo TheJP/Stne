@@ -9,7 +9,7 @@ using static StneApiGenerator.ElementType;
 
 namespace StneApiGenerator
 {
-    enum ElementType { Parameter, Variable, Property, Method, Constructor }
+    enum ElementType { Parameter, Variable, Property, Indexer, Method, Constructor }
     /// <summary>
     /// Represents a Type. It includes logic to convert stne html to type information.
     /// </summary>
@@ -55,7 +55,7 @@ namespace StneApiGenerator
                 var element = new Element();
                 var keywords = cursor.InnerText.Trim().Split(' ');
                 element.Static = keywords[0] == "Static";
-                element.ElementType = StringToElementType(keywords.Last());
+                element.ElementType = StringToElementType(keywords.Last(), cursor);
 
                 //Read name of non constructor elements
                 if(element.ElementType != Constructor)
@@ -64,12 +64,17 @@ namespace StneApiGenerator
                     element.Name = cursor.InnerText.Trim();
                 }
 
-                //Read parameter list of methods and constructors
-                if (element.ElementType == Method || element.ElementType == Constructor)
+                //Read parameter list of methods, constructors and indexers
+                if (element.ElementType == Method ||
+                    element.ElementType == Constructor ||
+                    element.ElementType == Indexer)
                 {
                     element.ParameterList = new List<Element>();
                     cursor = cursor.NextSibling;
-                    while (!cursor.InnerText.Trim().EndsWith(") As") && !cursor.InnerText.Contains("()"))
+                    while (!cursor.InnerText.Trim().EndsWith(") As") &&
+                        !cursor.InnerText.Contains("()") &&
+                        cursor.InnerText.Trim() != ")" &&
+                        cursor.InnerText.Trim() != "As")
                     {
                         var parameter = new Element();
                         parameter.ElementType = Parameter;
@@ -92,13 +97,18 @@ namespace StneApiGenerator
                     element.Type = cursor.InnerText.Trim();
                     cursor = cursor.NextSibling;
                 }
+
                 cursor = cursor.NextSibling;
                 var add = cursor.InnerText.Trim() != "(geerbt)";
-
                 if (add)
                 {
                     result.Elements.Add(element);
-                    if (!hasType) { cursor = cursor.NextSibling; }
+                    if (!hasType &&
+                        element.ElementType != Property &&
+                        element.ElementType != Variable)
+                    {
+                        cursor = cursor.NextSibling;
+                    }
                 }
                 else
                 {
@@ -114,13 +124,19 @@ namespace StneApiGenerator
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private static ElementType StringToElementType(string type)
+        private static ElementType StringToElementType(string type, HtmlNode cursor)
         {
             switch (type)
             {
                 case "New": return Constructor;
                 case "Function": return Method;
-                case "Property": return Property;
+                case "Property":
+                    //Perform look-ahead to check, if it is an indexer
+                    if (cursor.NextSibling.NextSibling.InnerText.Contains("("))
+                    {
+                        return Indexer;
+                    }
+                    return Property;
                 case "Var": return Variable;
                 default: throw new ArgumentException($"'{nameof(type)}' is invalid");
             }
