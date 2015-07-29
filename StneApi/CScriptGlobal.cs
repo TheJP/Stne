@@ -6,7 +6,7 @@ namespace StneApi
     /// </summary>
     public class CScriptGlobal
     {
-        public void WriteLine(String msg) { }
+        public static void WriteLine(String msg) { }
     }
 }
 
