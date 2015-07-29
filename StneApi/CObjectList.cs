@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CObjectList : CCollectionBase
+    public class CObjectList : CCollectionBase
     {
         public Object this[Integer Index] { get { return null; } set { } }
         public Integer Add(Object Value) { return null; }

@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CBuilding : Object
+    public class CBuilding : Object
     {
         public Boolean Active { get; set; }
         public object BuildingType { get; set; }

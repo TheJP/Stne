@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CTable : CHtmlControl
+    public class CTable : CHtmlControl
     {
         public String BackImageUrl { get; set; }
         public String BgColor { get; set; }

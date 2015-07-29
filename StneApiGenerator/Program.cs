@@ -50,7 +50,7 @@ namespace StneApiGenerator
                     .Replace("enum", "class")
                     .Replace("structure", "class");
                 var inheritance = type.Inheritance == null ? "" : $" : {type.Inheritance}";
-                writer.WriteLine($"{typeString} {type.TypeName}{inheritance}");
+                writer.WriteLine($"public {typeString} {type.TypeName}{inheritance}");
                 writer.WriteLine("{");
                 writer.IdentGrade = 2;
                 //Attributes

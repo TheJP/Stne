@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CHtmlControlList : CCollectionBase
+    public class CHtmlControlList : CCollectionBase
     {
         public CHtmlControl Owner { get; set; }
         public CHtmlControl this[Integer Index] { get { return null; } set { } }

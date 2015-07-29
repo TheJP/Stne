@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CScriptContext : Object
+    public class CScriptContext : Object
     {
         public Boolean CanCallScripts { get; set; }
         public CStringObjectHashTable CustomRequestArguments { get; set; }

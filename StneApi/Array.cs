@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class Array<T> : StneType where T : class, StneType
+    public class Array<T> : StneType where T : class, StneType
     {
         public T this[Integer index] { get { return null; } set { } }
         public T this[Long index] { get { return null; } set { } }

@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CBaseShipManager : Object
+    public class CBaseShipManager : Object
     {
         public void ActivateLRS(Boolean Status) { }
         public void ActivateMaincomputer(Boolean Status) { }

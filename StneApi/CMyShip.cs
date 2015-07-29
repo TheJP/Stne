@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CMyShip : CShip
+    public class CMyShip : CShip
     {
         public CBaseShipManager Action { get; set; }
         public EAutoPilotType AutoPilotType { get; set; }

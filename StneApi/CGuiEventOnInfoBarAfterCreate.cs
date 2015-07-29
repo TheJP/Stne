@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CGuiEventOnInfoBarAfterCreate : CGuiEvent
+    public class CGuiEventOnInfoBarAfterCreate : CGuiEvent
     {
         public IGuiControl CreateItem(Boolean Right) { return null; }
     }

@@ -248,6 +248,9 @@
     <Compile Include="SMap.cs" />
     <Compile Include="SMapPosition.cs" />
     <Compile Include="SPoint.cs" />
+    <Compile Include="StneProgram.cs" />
+    <Compile Include="StneType.cs" />
+    <Compile Include="StneValueType.cs" />
     <Compile Include="String.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

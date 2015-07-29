@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CShip : CBaseShip
+    public class CShip : CBaseShip
     {
         public EAlertLevel AlertLevel { get; set; }
         public Integer Crew { get; set; }

@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class EBeamResource : Enum
+    public class EBeamResource : Enum
     {
         public static EBeamResource Antimatter;
         public static EBeamResource Contrabands;
