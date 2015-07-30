@@ -1,10 +1,5 @@
 ﻿using StneApi;
 using static StneApi.CScriptGlobal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Samples
 {
@@ -12,7 +7,8 @@ namespace Samples
     {
         public override void Main()
         {
-            WriteLine("Hello World");
+            WriteLine(this.GetText());
         }
+        private String GetText() { return "Hello World"; }
     }
 }

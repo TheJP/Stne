@@ -44,8 +44,8 @@ namespace CSharp2Stne
             //Create script code
             using (var writer = new StreamWriter(target.Open(FileMode.Create, FileAccess.Write, FileShare.None)))
             {
-                var code = new CodeConstruction(Console.Out);
-                code.RecursiveConstruction(root.Members);
+                var code = new CodeConstruction(Console.Out, model);
+                code.ConstructCode(root.Members);
             }
         }
 
