@@ -14,7 +14,7 @@ namespace CSharp2Stne
     class Program
     {
         public const string DefaultTargetName = "out.stne";
-        public const string StneProgramClass = "StneProgram";
+        public static readonly string[] StneProgramClasses = { "StneProgram", "StneWebProgram", "StneShipPortal", "StneColonyPortal" };
 
         /// <summary>
         /// Compile the c#-source to stne script using roslyn.

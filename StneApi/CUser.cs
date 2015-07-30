@@ -19,8 +19,8 @@ namespace StneApi
         public Integer UserID { get; set; }
         public static CUser Create(Integer UserID) { return null; }
         public static Boolean Exists(Integer UserID) { return null; }
-        public CHtmlControl GetHtmlName(Boolean ShowSponsor) { return null; }
-        public CHtmlControl GetHtmlNameAndID(Boolean ShowSponsor) { return null; }
+        public CHtmlControl GetHtmlName(Boolean Clickable = null) { return null; }
+        public CHtmlControl GetHtmlNameAndID(Boolean Clickable = null) { return null; }
         public void GetRelation(CUser User) { }
         public CUser(Integer UserID) { }
     }

@@ -54,6 +54,7 @@ namespace CSharp2Stne
 
         private void RecursiveConstruction(IEnumerable<SyntaxNode> nodes)
         {
+            if(nodes == null) { return; }
             foreach (var node in nodes)
             {
                 if (node is NamespaceDeclarationSyntax)
@@ -64,37 +65,84 @@ namespace CSharp2Stne
                 else if (node is MethodDeclarationSyntax) { ConstructMethod(node as MethodDeclarationSyntax); }
                 else if (node is ExpressionStatementSyntax) { ConstructStatement(node as ExpressionStatementSyntax); }
                 else if (node is ReturnStatementSyntax) { ConstructStatement(node as ReturnStatementSyntax, true); }
+                else if (node is VariableDeclarationSyntax) { ConstructVariable(node as VariableDeclarationSyntax); }
                 else if (node is BreakStatementSyntax) { Error("Break statements are not supported.", node); }
                 else if (node is ArrowExpressionClauseSyntax) { Error("Lambda expressions are not supported", node); }
-                else if (node is ThisExpressionSyntax) { WriteExpression("This"); }
-                else if (node is LiteralExpressionSyntax) { WriteExpression(node.ToString()); }
+                else if (node is TypeParameterSyntax) { Error("Generics are not supported", node); }
+                else if (node is ThisExpressionSyntax) { Write("This"); }
+                //else if (node is BinaryExpressionSyntax) { ConstructBinaryExpression(node as BinaryExpressionSyntax); }
+                else if (node is MemberAccessExpressionSyntax) { ConstructMemberAccess(node as MemberAccessExpressionSyntax); }
+                else if (node is ObjectCreationExpressionSyntax) { ConstructNewExpression(node as ObjectCreationExpressionSyntax); }
+                else if (node is IdentifierNameSyntax) { Write((node as IdentifierNameSyntax).Identifier.ToString()); }
+                else if (node is LiteralExpressionSyntax) { Write(node.ToString().Replace("true", "True").Replace("false", "False")); }
                 else if (node is InvocationExpressionSyntax) { ConstructInvocation(node as InvocationExpressionSyntax); }
-                else
-                {
-                    //Console.WriteLine($"{new string(' ', ident*4)} {node.GetType()}");
-                    RecursiveConstruction(node.ChildNodes());
-                }
+                else { RecursiveConstruction(node.ChildNodes()); }
             }
+        }
+
+        private void ConstructNewExpression(ObjectCreationExpressionSyntax expression)
+        {
+            Write("New ");
+            Write(expression.Type.ToString());
+            Write("(");
+            RecursiveConstruction(expression.ArgumentList.Arguments);
+            Write(")");
+        }
+
+        private void ConstructMemberAccess(MemberAccessExpressionSyntax expression)
+        {
+            RecursiveConstruction(new SyntaxNode[]{ expression.Expression });
+            Write(expression.OperatorToken.ToString());
+            Write(expression.Name.ToString());
+        }
+
+        private void ConstructBinaryExpression(BinaryExpressionSyntax expression)
+        {
+            RecursiveConstruction(expression.Left.ChildNodes());
+            Write(expression.OperatorToken.ToFullString());
+            RecursiveConstruction(expression.Right.ChildNodes());
         }
 
         private void ConstructStatement(StatementSyntax expression, bool isReturn = false)
         {
             Writer.Write(ident);
-            if (isReturn) { WriteExpression("Return "); }
+            if (isReturn) { Write("Return "); }
             RecursiveConstruction(expression.ChildNodes());
             Writer.WriteLine(";");
         }
 
         private void ConstructInvocation(InvocationExpressionSyntax expression)
         {
-            var info = Model.GetSymbolInfo(expression.Expression);
-            if (info.Symbol.ContainingType != null && CurrentType != null && info.Symbol.ContainingType.Name == CurrentType)
+            if (!(expression.Expression is MemberAccessExpressionSyntax))
             {
-                WriteExpression("This.");
+                var info = Model.GetSymbolInfo(expression.Expression);
+                if (info.Symbol.ContainingType != null &&
+                    CurrentType != null &&
+                    info.Symbol.ContainingType.Name == CurrentType)
+                {
+                    //Special case, because stne can't access members of the same type without "This." prefix.
+                    Write("This.");
+                }
             }
-            WriteExpression($"{expression.Expression}(");
-            RecursiveConstruction(expression.ChildNodes());
-            WriteExpression(")");
+            Write($"{expression.Expression}(".Replace("this.", "This."));
+            RecursiveConstruction(expression.ArgumentList?.Arguments);
+            Write(")");
+        }
+
+        private void ConstructVariable(VariableDeclarationSyntax declaration)
+        {
+            if (declaration.Type.IsVar) { Error("TODO"); }
+            foreach (var variable in declaration.Variables)
+            {
+                Write(ident);
+                Write($"Var {variable.Identifier} As {declaration.Type}");
+                if(variable.Initializer != null)
+                {
+                    Write(" = ");
+                    RecursiveConstruction(new SyntaxNode[] { variable.Initializer });
+                }
+                Writer.WriteLine(";");
+            }
         }
 
         private void ConstructMethod(MethodDeclarationSyntax declaration)
@@ -112,7 +160,6 @@ namespace CSharp2Stne
                 .ToArray());
             var isVoid = ((declaration.ReturnType as PredefinedTypeSyntax)?.Keyword)?.Text == "void";
             var typeDefinition = isVoid ? "" : $" As {declaration.ReturnType}";
-            WriteCode();
             WriteCode($"Function {declaration.Identifier}({parameterList}){typeDefinition}");
             WriteCode("{");
             ++Ident;
@@ -125,29 +172,31 @@ namespace CSharp2Stne
         {
             Func<BaseTypeSyntax, string> getTypeString = type => ((type.Type as IdentifierNameSyntax)?.Identifier)?.Text;
             //Check if type is entry point
-            if (declaration.BaseList.Types.Any(type => getTypeString(type) == StneProgramClass))
+            if (declaration.BaseList.Types.Any(type => StneProgramClasses.Contains(getTypeString(type))))
             {
                 if (mainClass == null) { mainClass = declaration.Identifier.Text; }
-                else { Error($"Found multiple entry points for program. Only one class is allowed to extend {StneProgramClass}.", declaration); }
+                else { Error("Found multiple entry points for program. " +
+                    $"Only one class is allowed to extend one of the following classes: {String.Join(", ", StneProgramClasses)}.", declaration); }
             }
             //Generate inheritance list
             var inheritanceString = String.Join(", ", declaration.BaseList.Types
                 .Select(getTypeString)
-                .Where(type => type != null && type != StneProgramClass)
+                .Where(type => type != null && !StneProgramClasses.Contains(type))
                 .ToArray());
+            if (!String.IsNullOrWhiteSpace(inheritanceString)) { Error("Inheritance is not supported.", declaration); }
             //Write class declaration
             WriteCode($"Class {declaration.Identifier}" +
                 (String.IsNullOrWhiteSpace(inheritanceString) ? "" : $" : {inheritanceString}"));
             WriteCode("{");
             CurrentType = declaration.Identifier.ToString();
             ++Ident;
-            RecursiveConstruction(declaration.ChildNodes());
+            RecursiveConstruction(declaration.Members);
             --Ident;
             CurrentType = null;
             WriteCode("}");
         }
 
-        private void WriteExpression(string expression)
+        private void Write(string expression)
         {
             Writer.Write(expression);
         }

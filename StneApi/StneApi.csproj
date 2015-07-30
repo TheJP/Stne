@@ -248,9 +248,12 @@
     <Compile Include="SMap.cs" />
     <Compile Include="SMapPosition.cs" />
     <Compile Include="SPoint.cs" />
+    <Compile Include="StneColonyPortal.cs" />
     <Compile Include="StneProgram.cs" />
+    <Compile Include="StneShipPortal.cs" />
     <Compile Include="StneType.cs" />
     <Compile Include="StneValueType.cs" />
+    <Compile Include="StneWebProgram.cs" />
     <Compile Include="String.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
