@@ -38,10 +38,17 @@ namespace CSharp2Stne
         /// <param name="nodes">Root node of the syntax to create the code from.</param>
         public void ConstructCode(IEnumerable<SyntaxNode> nodes)
         {
+            //Estimate user interface
+            var basetype = nodes.Where(node => node is BaseTypeSyntax).FirstOrDefault() as BaseTypeSyntax;
+            var basename = ((basetype?.Type as IdentifierNameSyntax)?.Identifier)?.Text;
+            if (basename == "StneWebProgram") { WriteCode("#UseInterface Web;"); }
+            else if (basename == "StneShipPortal") { WriteCode("#UseInterface Web, ShipPortal;"); }
+            else if (basename == "StneColonyPortal") { WriteCode("#UseInterface Web, ColonyPortal;"); }
+            //Construct code
             RecursiveConstruction(nodes);
+            //Call bootstrap method
             if (!String.IsNullOrWhiteSpace(mainClass))
             {
-                //Call bootstrap method
                 WriteCode($"Var main As New {mainClass}();");
                 WriteCode("main.Main();");
             }
@@ -50,6 +57,11 @@ namespace CSharp2Stne
                 Warn("Found no entry point to the application. " +
                     "If you don't intend to create a library, you should add a class, which derives from StneProgram.");
             }
+        }
+
+        private void RecursiveConstruction(SyntaxNode node)
+        {
+            RecursiveConstruction(new SyntaxNode[] { node });
         }
 
         private void RecursiveConstruction(IEnumerable<SyntaxNode> nodes)
@@ -73,6 +85,7 @@ namespace CSharp2Stne
                 //else if (node is BinaryExpressionSyntax) { ConstructBinaryExpression(node as BinaryExpressionSyntax); }
                 else if (node is MemberAccessExpressionSyntax) { ConstructMemberAccess(node as MemberAccessExpressionSyntax); }
                 else if (node is ObjectCreationExpressionSyntax) { ConstructNewExpression(node as ObjectCreationExpressionSyntax); }
+                else if (node is ArgumentListSyntax) { ConstructArgumentList(node as ArgumentListSyntax); }
                 else if (node is IdentifierNameSyntax) { Write((node as IdentifierNameSyntax).Identifier.ToString()); }
                 else if (node is LiteralExpressionSyntax) { Write(node.ToString().Replace("true", "True").Replace("false", "False")); }
                 else if (node is InvocationExpressionSyntax) { ConstructInvocation(node as InvocationExpressionSyntax); }
@@ -80,18 +93,28 @@ namespace CSharp2Stne
             }
         }
 
+        private void ConstructArgumentList(ArgumentListSyntax list)
+        {
+            Write("(");
+            int commas = list.Arguments.SeparatorCount;
+            foreach(var argument in list.Arguments)
+            {
+                RecursiveConstruction(argument);
+                if (--commas >= 0) { Write(", "); }
+            }
+            Write(")");
+        }
+
         private void ConstructNewExpression(ObjectCreationExpressionSyntax expression)
         {
             Write("New ");
             Write(expression.Type.ToString());
-            Write("(");
-            RecursiveConstruction(expression.ArgumentList.Arguments);
-            Write(")");
+            RecursiveConstruction(expression.ArgumentList);
         }
 
         private void ConstructMemberAccess(MemberAccessExpressionSyntax expression)
         {
-            RecursiveConstruction(new SyntaxNode[]{ expression.Expression });
+            RecursiveConstruction(expression.Expression);
             Write(expression.OperatorToken.ToString());
             Write(expression.Name.ToString());
         }
@@ -139,7 +162,7 @@ namespace CSharp2Stne
                 if(variable.Initializer != null)
                 {
                     Write(" = ");
-                    RecursiveConstruction(new SyntaxNode[] { variable.Initializer });
+                    RecursiveConstruction(variable.Initializer);
                 }
                 Writer.WriteLine(";");
             }

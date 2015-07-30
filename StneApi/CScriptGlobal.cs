@@ -7,6 +7,8 @@ namespace StneApi
     public class CScriptGlobal
     {
         public static void WriteLine(String msg) { }
+        public static String CStr(Boolean b) { return null; }
+        public static String CStr(StneNumericType n) { return null; }
     }
 }
 
