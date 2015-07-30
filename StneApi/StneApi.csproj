@@ -237,6 +237,7 @@
     <Compile Include="Log.cs" />
     <Compile Include="Long.cs" />
     <Compile Include="Math.cs" />
+    <Compile Include="StneNumericType.cs" />
     <Compile Include="Object.cs" />
     <Compile Include="PageLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

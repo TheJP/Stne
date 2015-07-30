@@ -5,6 +5,7 @@ public class Sample3 : StneProgram
 {
     public override void Main()
     {
-        WriteLine(CStr(5 + 2));
+        Integer five = 5;
+        WriteLine(CStr(five));
     }
 }
