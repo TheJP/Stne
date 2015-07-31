@@ -38,8 +38,8 @@ namespace CSharp2Stne
                 .AddReferences(MetadataReference.CreateFromFile(typeof(StneApi.Object).Assembly.Location))
                 .AddSyntaxTrees(tree);
             var model = compilation.GetSemanticModel(tree);
-            var nameInfo = model.GetSymbolInfo(root.Usings[0].Name);
-            var systemSymbol = (INamespaceSymbol)nameInfo.Symbol;
+            //var nameInfo = model.GetSymbolInfo(root.Usings[0].Name);
+            //var systemSymbol = (INamespaceSymbol)nameInfo.Symbol;
 
             //Create script code
             using (var writer = new StreamWriter(target.Open(FileMode.Create, FileAccess.Write, FileShare.None)))

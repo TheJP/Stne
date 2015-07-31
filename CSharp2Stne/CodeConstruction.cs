@@ -154,11 +154,15 @@ namespace CSharp2Stne
 
         private void ConstructVariable(VariableDeclarationSyntax declaration)
         {
-            if (declaration.Type.IsVar) { Error("TODO"); }
+            var type = declaration.Type.ToString();
             foreach (var variable in declaration.Variables)
             {
+                if (declaration.Type.IsVar)
+                {
+                    type = Model.GetTypeInfo(variable.Initializer.Value).Type.Name;
+                }
                 Write(ident);
-                Write($"Var {variable.Identifier} As {declaration.Type}");
+                Write($"Var {variable.Identifier} As {type}");
                 if(variable.Initializer != null)
                 {
                     Write(" = ");
