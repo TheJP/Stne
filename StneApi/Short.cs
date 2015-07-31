@@ -11,8 +11,12 @@ namespace StneApi
         public Integer CompareTo(Object value) { return null; }
         public void GetTypeCode() { }
         public static Short Parse(String s) { return null; }
-        public static implicit operator short(Short s) => 0;
         public static implicit operator Short(short s) => null;
+        public static implicit operator Short(Byte s) => null;
+        public static implicit operator Short(Char s) => null;
+        public static implicit operator Short(Integer s) => null;
+        public static implicit operator Short(Long s) => null;
+        public static implicit operator Short(Double s) => null;
     }
 }
 

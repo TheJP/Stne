@@ -44,8 +44,12 @@ namespace StneApi
         public String ToUpperInvariant() { return null; }
         public String Trim() { return null; }
         public String(Char c, Integer count) { }
-        public static implicit operator string(String s) => null;
         public static implicit operator String(string s) => null;
+        public static implicit operator String(byte o) => null;
+        public static implicit operator String(char o) => null;
+        public static implicit operator String(short o) => null;
+        public static implicit operator String(int o) => null;
+        public static implicit operator String(long o) => null;
     }
 }
 

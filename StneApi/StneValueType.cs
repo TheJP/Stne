@@ -8,7 +8,7 @@ namespace StneApi
 {
     /// <summary>
     /// Maker Interface for StneValueTypes.
-    /// (Don't use this in scripts, beacuse it is not translateable to stne scripts)
+    /// (Don't use this in scripts, beacuse it is not translatable to stne scripts)
     /// </summary>
     public interface StneValueType : StneType
     {

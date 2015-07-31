@@ -11,8 +11,10 @@ namespace StneApi
         public Integer CompareTo(Object obj) { return null; }
         public void GetTypeCode() { }
         public static Boolean Parse(String value) { return null; }
-        public static implicit operator bool(Boolean o) => true;
         public static implicit operator Boolean(bool o) => null;
+        public static Boolean operator !(Boolean b) => null;
+        public static Boolean operator ==(Boolean lhs, Boolean rhs) => null;
+        public static Boolean operator !=(Boolean lhs, Boolean rhs) => null;
     }
 }
 

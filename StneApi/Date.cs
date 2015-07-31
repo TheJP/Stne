@@ -62,6 +62,7 @@ namespace StneApi
         public String ToShortTimeString() { return null; }
         public Date ToUniversalTime() { return null; }
         public Date(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second, Integer millisecond) { }
+        public static implicit operator String(Date o) => null;
     }
 }
 

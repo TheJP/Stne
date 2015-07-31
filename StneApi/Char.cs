@@ -34,8 +34,12 @@ namespace StneApi
         public static Char ToLowerInvariant(Char c) { return null; }
         public static Char ToUpper(Char c) { return null; }
         public static Char ToUpperInvariant(Char c) { return null; }
-        public static implicit operator char(Char o) => (char)0;
         public static implicit operator Char(char o) => null;
+        public static implicit operator Char(Byte o) => null;
+        public static implicit operator Char(Short o) => null;
+        public static implicit operator Char(Integer o) => null;
+        public static implicit operator Char(Long o) => null;
+        public static implicit operator Char(Double o) => null;
     }
 }
 
