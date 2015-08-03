@@ -82,13 +82,13 @@ namespace CSharp2Stne
                 else if (node is ArrowExpressionClauseSyntax) { Error("Lambda expressions are not supported", node); }
                 else if (node is TypeParameterSyntax) { Error("Generics are not supported", node); }
                 else if (node is ThisExpressionSyntax) { Write("This"); }
-                //else if (node is BinaryExpressionSyntax) { ConstructBinaryExpression(node as BinaryExpressionSyntax); }
                 else if (node is MemberAccessExpressionSyntax) { ConstructMemberAccess(node as MemberAccessExpressionSyntax); }
                 else if (node is ObjectCreationExpressionSyntax) { ConstructNewExpression(node as ObjectCreationExpressionSyntax); }
                 else if (node is ArgumentListSyntax) { ConstructArgumentList(node as ArgumentListSyntax); }
                 else if (node is IdentifierNameSyntax) { Write((node as IdentifierNameSyntax).Identifier.ToString()); }
-                else if (node is LiteralExpressionSyntax) { Write(node.ToString().Replace("true", "True").Replace("false", "False")); }
+                else if (node is LiteralExpressionSyntax) { Write(node.ToFullString().Replace("true", "True").Replace("false", "False")); }
                 else if (node is InvocationExpressionSyntax) { ConstructInvocation(node as InvocationExpressionSyntax); }
+                else if (node is BinaryExpressionSyntax) { ConstructBinaryExpression(node as BinaryExpressionSyntax); }
                 else { RecursiveConstruction(node.ChildNodes()); }
             }
         }
@@ -121,9 +121,9 @@ namespace CSharp2Stne
 
         private void ConstructBinaryExpression(BinaryExpressionSyntax expression)
         {
-            RecursiveConstruction(expression.Left.ChildNodes());
+            RecursiveConstruction(expression.Left);
             Write(expression.OperatorToken.ToFullString());
-            RecursiveConstruction(expression.Right.ChildNodes());
+            RecursiveConstruction(expression.Right);
         }
 
         private void ConstructStatement(StatementSyntax expression, bool isReturn = false)

@@ -18,8 +18,6 @@ namespace StneApi
         public static String Copy(String str) { return null; }
         public Boolean EndsWith(String value) { return null; }
         public static String Format(String format, Object arg0, Object arg1, Object arg2) { return null; }
-        public void GetEnumerator() { }
-        public void GetTypeCode() { }
         public Integer IndexOf(String value, Integer startIndex, Integer count) { return null; }
         public String Insert(Integer startIndex, String value) { return null; }
         public static String Intern(String str) { return null; }
@@ -36,20 +34,21 @@ namespace StneApi
         public String Remove(Integer startIndex) { return null; }
         public String Replace(Char oldChar, Char newChar) { return null; }
         public Boolean StartsWith(String value) { return null; }
-        public String Substring(Integer startIndex, Integer length) { return null; }
-        public void ToCharArray() { }
+        public String Substring(Integer startIndex, Integer length = null) { return null; }
         public String ToLower() { return null; }
         public String ToLowerInvariant() { return null; }
         public String ToUpper() { return null; }
         public String ToUpperInvariant() { return null; }
         public String Trim() { return null; }
         public String(Char c, Integer count) { }
+        public static String operator +(String lhs, String rhs) => null;
         public static implicit operator String(string s) => null;
         public static implicit operator String(byte o) => null;
         public static implicit operator String(char o) => null;
         public static implicit operator String(short o) => null;
         public static implicit operator String(int o) => null;
         public static implicit operator String(long o) => null;
+        public static implicit operator String(double o) => null;
     }
 }
 

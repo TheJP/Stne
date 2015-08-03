@@ -8,5 +8,7 @@ public class Sample3 : StneProgram
         Integer five = 5;
         WriteLine(CStr(5 + 4));
         WriteLine(5 + 5);
+        WriteLine(5 / 3.0 - 5);
+        WriteLine("Are pcs edible? " + CStr(false));
     }
 }

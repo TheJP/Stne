@@ -11,6 +11,7 @@
         public static implicit operator StneNumericType(short o) => null;
         public static implicit operator StneNumericType(int o) => null;
         public static implicit operator StneNumericType(long o) => null;
+        public static implicit operator StneNumericType(double o) => null;
         public static implicit operator StneApi.String(StneNumericType o) => null;
         public static StneNumericType operator +(StneNumericType lhs, StneNumericType rhs) => null;
         public static StneNumericType operator -(StneNumericType lhs, StneNumericType rhs) => null;

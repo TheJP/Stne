@@ -15,6 +15,10 @@ namespace StneApi
         public static Boolean operator !(Boolean b) => null;
         public static Boolean operator ==(Boolean lhs, Boolean rhs) => null;
         public static Boolean operator !=(Boolean lhs, Boolean rhs) => null;
+        public static bool operator true(Boolean lhs) => true;
+        public static bool operator false(Boolean lhs) => false;
+        public static Boolean operator &(Boolean lhs, Boolean rhs) => null;
+        public static Boolean operator |(Boolean lhs, Boolean rhs) => null;
     }
 }
 
