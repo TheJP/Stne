@@ -57,8 +57,13 @@ namespace CSharp2Stne
         public void ConstructCode(IEnumerable<SyntaxNode> nodes)
         {
             //Estimate user interface
-            var basetype = nodes.Where(node => node is BaseTypeSyntax).FirstOrDefault() as BaseTypeSyntax;
-            var basename = ((basetype?.Type as IdentifierNameSyntax)?.Identifier)?.Text;
+            var classDeclarations = nodes.Where(node => node is ClassDeclarationSyntax).Select(node => node as ClassDeclarationSyntax);
+            var basename = classDeclarations
+                .Select(node => node?.BaseList?.Types)
+                .Where(node => node != null)
+                .SelectMany(node => node.Value)
+                .Select(node => ((node?.Type as IdentifierNameSyntax)?.Identifier)?.Text)
+                .Where(node => Program.StneProgramClasses.Contains(node)).FirstOrDefault();
             if (basename == "StneWebProgram") { WriteCode("#UseInterface Web;"); }
             else if (basename == "StneShipPortal") { WriteCode("#UseInterface Web, ShipPortal;"); }
             else if (basename == "StneColonyPortal") { WriteCode("#UseInterface Web, ColonyPortal;"); }
@@ -98,6 +103,7 @@ namespace CSharp2Stne
                 else if (node is IfStatementSyntax) { ConstructIfStatement(node as IfStatementSyntax); }
                 else if (node is WhileStatementSyntax) { ConstructWhileStatement(node as WhileStatementSyntax); }
                 else if (node is ForStatementSyntax) { ConstructForStatement(node as ForStatementSyntax); }
+                else if (node is ForEachStatementSyntax) { ConstructForEachStatement(node as ForEachStatementSyntax); }
                 else if (node is VariableDeclarationSyntax) { ConstructVariable(node as VariableDeclarationSyntax); }
                 else if (node is BreakStatementSyntax) { Error("Break statements are not supported.", node); }
                 else if (node is ArrowExpressionClauseSyntax) { Error("Lambda expressions are not supported", node); }
@@ -208,6 +214,19 @@ namespace CSharp2Stne
                 WriteOperator(expression.OperatorToken);
             }
             RecursiveConstruction(expression.Right);
+        }
+
+        private void ConstructForEachStatement(ForEachStatementSyntax statement)
+        {
+            var type = statement.Type.IsVar ? "Object" : statement.Type.ToString();
+            WriteCode($"Var {statement.Identifier} As {type};");
+            Write($"{ident}For(Each {statement.Identifier} In ");
+            RecursiveConstruction(statement.Expression);
+            Writer.WriteLine("){");
+            ++Ident;
+            RecursiveConstruction(statement.Statement);
+            --Ident;
+            WriteCode("}");
         }
 
         private void ConstructForStatement(ForStatementSyntax statement)
