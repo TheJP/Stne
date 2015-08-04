@@ -105,6 +105,7 @@ namespace CSharp2Stne
                 else if (node is ForStatementSyntax) { ConstructForStatement(node as ForStatementSyntax); }
                 else if (node is ForEachStatementSyntax) { ConstructForEachStatement(node as ForEachStatementSyntax); }
                 else if (node is VariableDeclarationSyntax) { ConstructVariable(node as VariableDeclarationSyntax); }
+                else if (node is ArrayCreationExpressionSyntax) { ConstructArrayExpression(node as ArrayCreationExpressionSyntax); }
                 else if (node is BreakStatementSyntax) { Error("Break statements are not supported.", node); }
                 else if (node is ArrowExpressionClauseSyntax) { Error("Lambda expressions are not supported", node); }
                 else if (node is TypeParameterSyntax) { Error("Generics are not supported", node); }
@@ -123,6 +124,11 @@ namespace CSharp2Stne
                 else if (node is InterpolatedStringTextSyntax) { Error("String interpolation is not supported", node); }
                 else { RecursiveConstruction(node.ChildNodes()); }
             }
+        }
+
+        private void ConstructArrayExpression(ArrayCreationExpressionSyntax arrayCreationExpressionSyntax)
+        {
+
         }
 
         private void ConstructAssignmentExpression(AssignmentExpressionSyntax expression)
@@ -326,7 +332,16 @@ namespace CSharp2Stne
                     type = Model.GetTypeInfo(variable.Initializer.Value).Type.Name;
                 }
                 Write(ident);
-                Write($"Var {variable.Identifier} As {type}");
+                //Special case, if it's an array
+                if (type.StartsWith("Array<"))
+                {
+                    var length = "Array<".Length;
+                    Write($"Var {variable.Identifier}[] As {type.Substring(length, type.Length - length - 1)}");
+                }
+                else
+                {
+                    Write($"Var {variable.Identifier} As {type}");
+                }
                 if(variable.Initializer != null)
                 {
                     Write(" = ");

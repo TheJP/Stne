@@ -11,6 +11,7 @@ namespace StneApi
     public class Array<T> : StneType, IEnumerable<T> where T : class, StneType
     {
         public T this[Integer index] { get { return null; } set { } }
+        public static implicit operator Array<T>(T[] o) => null;
         public Boolean IsFixedSize { get; set; }
         public Boolean IsReadOnly { get; set; }
         public Boolean IsSynchronized { get; set; }

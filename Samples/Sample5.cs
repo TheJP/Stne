@@ -10,5 +10,7 @@ public class Sample5 : StneShipPortal
             Response.Add(ship.GetNameHtmlAndID());
             Response.Add(new CHtmlBreak());
         }
+        Array<Integer> a = new Integer[]{ 4 };
+        Array<Integer> b = new Integer[5];
     }
 }
