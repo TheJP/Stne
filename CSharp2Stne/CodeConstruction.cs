@@ -218,7 +218,9 @@ namespace CSharp2Stne
 
         private void ConstructForEachStatement(ForEachStatementSyntax statement)
         {
-            var type = statement.Type.IsVar ? "Object" : statement.Type.ToString();
+            var type = statement.Type.IsVar ?
+                Model.GetSymbolInfo(statement.Type).Symbol.Name :
+                statement.Type.ToString();
             WriteCode($"Var {statement.Identifier} As {type};");
             Write($"{ident}For(Each {statement.Identifier} In ");
             RecursiveConstruction(statement.Expression);
