@@ -17,6 +17,8 @@ namespace StneApi
         public static implicit operator Short(Integer s) => null;
         public static implicit operator Short(Long s) => null;
         public static implicit operator Short(Double s) => null;
+        public static Short operator ++(Short o) => null;
+        public static Short operator --(Short o) => null;
     }
 }
 

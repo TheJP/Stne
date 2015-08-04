@@ -97,6 +97,7 @@ namespace CSharp2Stne
                 else if (node is ReturnStatementSyntax) { ConstructStatement(node as ReturnStatementSyntax, true); }
                 else if (node is IfStatementSyntax) { ConstructIfStatement(node as IfStatementSyntax); }
                 else if (node is WhileStatementSyntax) { ConstructWhileStatement(node as WhileStatementSyntax); }
+                else if (node is ForStatementSyntax) { ConstructForStatement(node as ForStatementSyntax); }
                 else if (node is VariableDeclarationSyntax) { ConstructVariable(node as VariableDeclarationSyntax); }
                 else if (node is BreakStatementSyntax) { Error("Break statements are not supported.", node); }
                 else if (node is ArrowExpressionClauseSyntax) { Error("Lambda expressions are not supported", node); }
@@ -113,6 +114,7 @@ namespace CSharp2Stne
                 else if (node is PostfixUnaryExpressionSyntax) { ConstructPostUnaryExpression(node as PostfixUnaryExpressionSyntax); }
                 else if (node is BinaryExpressionSyntax) { ConstructBinaryExpression(node as BinaryExpressionSyntax); }
                 else if (node is AssignmentExpressionSyntax) { ConstructAssignmentExpression(node as AssignmentExpressionSyntax); }
+                else if (node is InterpolatedStringTextSyntax) { Error("String interpolation is not supported", node); }
                 else { RecursiveConstruction(node.ChildNodes()); }
             }
         }
@@ -184,8 +186,37 @@ namespace CSharp2Stne
         private void ConstructBinaryExpression(BinaryExpressionSyntax expression)
         {
             RecursiveConstruction(expression.Left);
-            WriteOperator(expression.OperatorToken);
+            //Convert from + to &, when one of the types is a string
+            var op = expression.OperatorToken.ToString().Trim();
+            if (op == "+" &&
+                (Model.GetTypeInfo(expression.Left).Type.Name.ToUpper().Contains("STRING") ||
+                Model.GetTypeInfo(expression.Right).Type.Name.ToUpper().Contains("STRING")))
+            {
+                Write(" & ");
+            }
+            else
+            {
+                WriteOperator(expression.OperatorToken);
+            }
             RecursiveConstruction(expression.Right);
+        }
+
+        private void ConstructForStatement(ForStatementSyntax statement)
+        {
+            RecursiveConstruction(statement.Declaration);
+            Write($"{ident}While(");
+            RecursiveConstruction(statement.Condition);
+            Writer.WriteLine("){");
+            ++Ident;
+            RecursiveConstruction(statement.Statement);
+            foreach(var incrementor in statement.Incrementors)
+            {
+                Write(ident);
+                RecursiveConstruction(incrementor);
+                Writer.WriteLine(";");
+            }
+            --Ident;
+            WriteCode("}");
         }
 
         private void ConstructWhileStatement(WhileStatementSyntax statement)

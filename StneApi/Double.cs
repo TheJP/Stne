@@ -31,6 +31,8 @@ namespace StneApi
         public static implicit operator Double(Short o) => null;
         public static implicit operator Double(Integer o) => null;
         public static implicit operator Double(Long o) => null;
+        public static Double operator ++(Double o) => null;
+        public static Double operator --(Double o) => null;
     }
 }
 

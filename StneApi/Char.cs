@@ -40,6 +40,8 @@ namespace StneApi
         public static implicit operator Char(Integer o) => null;
         public static implicit operator Char(Long o) => null;
         public static implicit operator Char(Double o) => null;
+        public static Char operator ++(Char o) => null;
+        public static Char operator --(Char o) => null;
     }
 }
 

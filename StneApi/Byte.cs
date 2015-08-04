@@ -17,6 +17,8 @@ namespace StneApi
         public static implicit operator Byte(Integer o) => null;
         public static implicit operator Byte(Long o) => null;
         public static implicit operator Byte(Double o) => null;
+        public static Byte operator ++(Byte o) => null;
+        public static Byte operator --(Byte o) => null;
     }
 }
 

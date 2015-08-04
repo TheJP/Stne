@@ -13,16 +13,26 @@
         public static implicit operator StneNumericType(long o) => null;
         public static implicit operator StneNumericType(double o) => null;
         public static implicit operator StneApi.String(StneNumericType o) => null;
-        public static StneNumericType operator +(StneNumericType lhs, StneNumericType rhs) => null;
-        public static StneNumericType operator -(StneNumericType lhs, StneNumericType rhs) => null;
-        public static StneNumericType operator *(StneNumericType lhs, StneNumericType rhs) => null;
-        public static StneNumericType operator /(StneNumericType lhs, StneNumericType rhs) => null;
-        public static StneNumericType operator -(StneNumericType o) => null;
+        public static NumericResult operator +(StneNumericType lhs, StneNumericType rhs) => null;
+        public static NumericResult operator -(StneNumericType lhs, StneNumericType rhs) => null;
+        public static NumericResult operator *(StneNumericType lhs, StneNumericType rhs) => null;
+        public static NumericResult operator /(StneNumericType lhs, StneNumericType rhs) => null;
+        public static NumericResult operator -(StneNumericType o) => null;
         public static Boolean operator <(StneNumericType lhs, StneNumericType rhs) => null;
         public static Boolean operator >(StneNumericType lhs, StneNumericType rhs) => null;
         public static Boolean operator >=(StneNumericType lhs, StneNumericType rhs) => null;
         public static Boolean operator <=(StneNumericType lhs, StneNumericType rhs) => null;
         public static Boolean operator ==(StneNumericType lhs, StneNumericType rhs) => null;
         public static Boolean operator !=(StneNumericType lhs, StneNumericType rhs) => null;
+
+        public class NumericResult
+        {
+            public static implicit operator Byte(NumericResult o) => null;
+            public static implicit operator Char(NumericResult o) => null;
+            public static implicit operator Short(NumericResult o) => null;
+            public static implicit operator Integer(NumericResult o) => null;
+            public static implicit operator Long(NumericResult o) => null;
+            public static implicit operator Double(NumericResult o) => null;
+        }
     }
 }
