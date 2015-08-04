@@ -229,7 +229,7 @@ namespace CSharp2Stne
             }
         }
 
-        private void ConstructStatement(StatementSyntax expression, bool isReturn = false)
+        private void ConstructStatement(SyntaxNode expression, bool isReturn = false)
         {
             Write(ident);
             if (isReturn) { Write("Return "); }
@@ -293,7 +293,14 @@ namespace CSharp2Stne
             WriteCode($"Function {declaration.Identifier}({parameterList}){typeDefinition}");
             WriteCode("{");
             ++Ident;
-            RecursiveConstruction(declaration.ChildNodes());
+            if (declaration.ExpressionBody != null)
+            {
+                ConstructStatement(declaration.ExpressionBody, true);
+            }
+            else
+            {
+                RecursiveConstruction(declaration.Body);
+            }
             --Ident;
             WriteCode("}");
         }
