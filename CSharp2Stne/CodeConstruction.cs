@@ -28,6 +28,14 @@ namespace CSharp2Stne
             ["Double"] = "CDbl",
             ["Boolean"] = "CBool"
         };
+        private Dictionary<string, string> operatorReplacers = new Dictionary<string, string>()
+        {
+            ["=="] = "=",
+            ["!="] = "<>",
+            ["||"] = " Or ",
+            ["&&"] = " And ",
+            ["!"] = "Not "
+        };
         private string ident = "";
         private int Ident
         {
@@ -87,6 +95,8 @@ namespace CSharp2Stne
                 else if (node is MethodDeclarationSyntax) { ConstructMethod(node as MethodDeclarationSyntax); }
                 else if (node is ExpressionStatementSyntax) { ConstructStatement(node as ExpressionStatementSyntax); }
                 else if (node is ReturnStatementSyntax) { ConstructStatement(node as ReturnStatementSyntax, true); }
+                else if (node is IfStatementSyntax) { ConstructIfStatement(node as IfStatementSyntax); }
+                else if (node is WhileStatementSyntax) { ConstructWhileStatement(node as WhileStatementSyntax); }
                 else if (node is VariableDeclarationSyntax) { ConstructVariable(node as VariableDeclarationSyntax); }
                 else if (node is BreakStatementSyntax) { Error("Break statements are not supported.", node); }
                 else if (node is ArrowExpressionClauseSyntax) { Error("Lambda expressions are not supported", node); }
@@ -99,9 +109,31 @@ namespace CSharp2Stne
                 else if (node is IdentifierNameSyntax) { Write((node as IdentifierNameSyntax).Identifier.ToString()); }
                 else if (node is LiteralExpressionSyntax) { Write(node.ToFullString().Replace("true", "True").Replace("false", "False")); }
                 else if (node is InvocationExpressionSyntax) { ConstructInvocation(node as InvocationExpressionSyntax); }
+                else if (node is PrefixUnaryExpressionSyntax) { ConstructPreUnaryExpression(node as PrefixUnaryExpressionSyntax); }
+                else if (node is PostfixUnaryExpressionSyntax) { ConstructPostUnaryExpression(node as PostfixUnaryExpressionSyntax); }
                 else if (node is BinaryExpressionSyntax) { ConstructBinaryExpression(node as BinaryExpressionSyntax); }
+                else if (node is AssignmentExpressionSyntax) { ConstructAssignmentExpression(node as AssignmentExpressionSyntax); }
                 else { RecursiveConstruction(node.ChildNodes()); }
             }
+        }
+
+        private void ConstructAssignmentExpression(AssignmentExpressionSyntax expression)
+        {
+            RecursiveConstruction(expression.Left);
+            WriteOperator(expression.OperatorToken);
+            RecursiveConstruction(expression.Right);
+        }
+
+        private void ConstructPreUnaryExpression(PrefixUnaryExpressionSyntax expression)
+        {
+            WriteOperator(expression.OperatorToken);
+            RecursiveConstruction(expression.Operand);
+        }
+
+        private void ConstructPostUnaryExpression(PostfixUnaryExpressionSyntax expression)
+        {
+            RecursiveConstruction(expression.Operand);
+            WriteOperator(expression.OperatorToken);
         }
 
         private void ConstructExplicitCast(CastExpressionSyntax expression)
@@ -110,7 +142,7 @@ namespace CSharp2Stne
             if (!castConversions.ContainsKey(castType))
             {
                 Warn("Explicit casting is only possible for the following base types: " +
-                    String.Join(", ", castConversions.Keys.ToArray()));
+                    String.Join(", ", castConversions.Keys.ToArray()), expression);
                 RecursiveConstruction(expression.Expression);
             }
             else
@@ -145,20 +177,61 @@ namespace CSharp2Stne
         private void ConstructMemberAccess(MemberAccessExpressionSyntax expression)
         {
             RecursiveConstruction(expression.Expression);
-            Write(expression.OperatorToken.ToString());
+            Write(expression.OperatorToken.ToString()); //Always '.' operator
             Write(expression.Name.ToString());
         }
 
         private void ConstructBinaryExpression(BinaryExpressionSyntax expression)
         {
             RecursiveConstruction(expression.Left);
-            Write(expression.OperatorToken.ToFullString());
+            WriteOperator(expression.OperatorToken);
             RecursiveConstruction(expression.Right);
+        }
+
+        private void ConstructWhileStatement(WhileStatementSyntax statement)
+        {
+            Write($"{ident}While(");
+            RecursiveConstruction(statement.Condition);
+            Writer.WriteLine("){");
+            ++Ident;
+            RecursiveConstruction(statement.Statement);
+            --Ident;
+            WriteCode("}");
+        }
+
+        private void ConstructIfStatement(IfStatementSyntax statement, bool initialIdent = true)
+        {
+            Write($"{(initialIdent ? ident : "")}If(");
+            RecursiveConstruction(statement.Condition);
+            Writer.WriteLine("){");
+            ++Ident;
+            RecursiveConstruction(statement.Statement);
+            --Ident;
+            if (statement.Else == null)
+            {
+                WriteCode("}");
+            }
+            else
+            {
+                Write($"{ident}}} Else");
+                if (statement.Else.Statement is IfStatementSyntax)
+                {
+                    ConstructIfStatement(statement.Else.Statement as IfStatementSyntax, false);
+                }
+                else
+                {
+                    Writer.WriteLine(" {");
+                    ++Ident;
+                    RecursiveConstruction(statement.Else);
+                    --Ident;
+                    WriteCode("}");
+                }
+            }
         }
 
         private void ConstructStatement(StatementSyntax expression, bool isReturn = false)
         {
-            Writer.Write(ident);
+            Write(ident);
             if (isReturn) { Write("Return "); }
             RecursiveConstruction(expression.ChildNodes());
             Writer.WriteLine(";");
@@ -251,6 +324,15 @@ namespace CSharp2Stne
             --Ident;
             CurrentType = null;
             WriteCode("}");
+        }
+
+        private void WriteOperator(SyntaxToken op)
+        {
+            Write(op.LeadingTrivia.ToFullString());
+            var opString = op.ToString().Trim();
+            if (operatorReplacers.ContainsKey(opString)) { opString = operatorReplacers[opString]; }
+            Write(opString);
+            Write(op.TrailingTrivia.ToFullString());
         }
 
         private void Write(string expression)

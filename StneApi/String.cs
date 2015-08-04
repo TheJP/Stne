@@ -49,6 +49,10 @@ namespace StneApi
         public static implicit operator String(int o) => null;
         public static implicit operator String(long o) => null;
         public static implicit operator String(double o) => null;
+        public static Boolean operator ==(String lhs, string rhs) => null;
+        public static Boolean operator !=(String lhs, string rhs) => null;
+        public static Boolean operator ==(string lhs, String rhs) => null;
+        public static Boolean operator !=(string lhs, String rhs) => null;
     }
 }
 
