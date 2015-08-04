@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    public class CEntryList : CCollectionBase
+    public class CEntryList : CCollectionBase<DictionaryEntry>
     {
         public DictionaryEntry this[Integer Index] { get { return null; } set { } }
         public Integer Add(Object Key, Object Value) { return null; }

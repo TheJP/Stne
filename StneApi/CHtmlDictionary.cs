@@ -11,7 +11,7 @@ namespace StneApi
         public String ValueCssClass;
         public Integer ExtensionColumnCount { get; set; }
         public CTableRow AddColumnLine(Object Key, Object Value) { return null; }
-        public void AddDictionary(IDictionary dic) { }
+        public void AddDictionary(IDictionary<Object, Object> dic) { }
         public CTableRow AddRow(Object Key, Object Value) { return null; }
         public CTableRow AddSeperator(Object Value) { return null; }
         public CHtmlDictionary(Object Titel) { }

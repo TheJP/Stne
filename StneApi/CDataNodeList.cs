@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    public class CDataNodeList : CSortedListBase
+    public class CDataNodeList : CSortedListBase<String, CDataNode>
     {
         public CDataNode FirstNode { get; set; }
         public CDataNode LastNode { get; set; }
@@ -20,7 +20,7 @@ namespace StneApi
         public Boolean ContainsValue(CDataNode Value) { return null; }
         public CDataNodeList CreateIntegerSortedList(Boolean LinkNodes) { return null; }
         public CDataNodeList CreateSortedList(IComparer Comparer, Boolean LinkNodes) { return null; }
-        public void FillDictionary(IDictionary dic) { }
+        public void FillDictionary(IDictionary<String, CDataNode> dic) { }
         public CDataNode FindNode(String Path, String Delimiter, Boolean ShowExceptionIfNotExists) { return null; }
         public static CDataNodeList FromString(String Expression) { return null; }
         public CDataNode GetNode(String Path, String Delimiter) { return null; }

@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    public class CObjectHashTable : CDictionaryBase
+    public class CObjectHashTable : CDictionaryBase<Object, Object>
     {
         public Object this[Object Key] { get { return null; } set { } }
         public void Add(Object Key, Object Value) { }
