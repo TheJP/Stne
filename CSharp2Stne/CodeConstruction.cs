@@ -122,7 +122,17 @@ namespace CSharp2Stne
         private void ConstructAssignmentExpression(AssignmentExpressionSyntax expression)
         {
             RecursiveConstruction(expression.Left);
-            WriteOperator(expression.OperatorToken);
+            var op = expression.OperatorToken.ToString().Trim();
+            if (op == "+=" || op == "-=" || op == "*=" || op == "/=")
+            {
+                Write(" = ");
+                RecursiveConstruction(expression.Left);
+                Write($" {op[0]} ");
+            }
+            else
+            {
+                WriteOperator(expression.OperatorToken);
+            }
             RecursiveConstruction(expression.Right);
         }
 
@@ -187,8 +197,7 @@ namespace CSharp2Stne
         {
             RecursiveConstruction(expression.Left);
             //Convert from + to &, when one of the types is a string
-            var op = expression.OperatorToken.ToString().Trim();
-            if (op == "+" &&
+            if (expression.OperatorToken.ToString().Trim() == "+" &&
                 (Model.GetTypeInfo(expression.Left).Type.Name.ToUpper().Contains("STRING") ||
                 Model.GetTypeInfo(expression.Right).Type.Name.ToUpper().Contains("STRING")))
             {
