@@ -10,5 +10,7 @@ public class Sample3 : StneProgram
         WriteLine(5 + 5);
         WriteLine(5 / 3.0 - 5);
         WriteLine("Are pcs edible? " + CStr(false));
+        WriteLine("What is the answer to... " + 42);
+        WriteLine("Leet? " + (String)1337);
     }
 }

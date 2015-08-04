@@ -18,6 +18,16 @@ namespace CSharp2Stne
         private string mainClass = null;
         private TextWriter Writer { get; set; }
         private SemanticModel Model { get; set; }
+        private Dictionary<string, string> castConversions = new Dictionary<string, string>()
+        {
+            ["String"] = "CStr",
+            ["Byte"] = "CByte",
+            ["Short"] = "CShort",
+            ["Integer"] = "CInt",
+            ["Long"] = "CLng",
+            ["Double"] = "CDbl",
+            ["Boolean"] = "CBool"
+        };
         private string ident = "";
         private int Ident
         {
@@ -85,11 +95,31 @@ namespace CSharp2Stne
                 else if (node is MemberAccessExpressionSyntax) { ConstructMemberAccess(node as MemberAccessExpressionSyntax); }
                 else if (node is ObjectCreationExpressionSyntax) { ConstructNewExpression(node as ObjectCreationExpressionSyntax); }
                 else if (node is ArgumentListSyntax) { ConstructArgumentList(node as ArgumentListSyntax); }
+                else if (node is CastExpressionSyntax) { ConstructExplicitCast(node as CastExpressionSyntax); }
                 else if (node is IdentifierNameSyntax) { Write((node as IdentifierNameSyntax).Identifier.ToString()); }
                 else if (node is LiteralExpressionSyntax) { Write(node.ToFullString().Replace("true", "True").Replace("false", "False")); }
                 else if (node is InvocationExpressionSyntax) { ConstructInvocation(node as InvocationExpressionSyntax); }
                 else if (node is BinaryExpressionSyntax) { ConstructBinaryExpression(node as BinaryExpressionSyntax); }
                 else { RecursiveConstruction(node.ChildNodes()); }
+            }
+        }
+
+        private void ConstructExplicitCast(CastExpressionSyntax expression)
+        {
+            var castType = expression.Type.ToString().Trim();
+            if (!castConversions.ContainsKey(castType))
+            {
+                Warn("Explicit casting is only possible for the following base types: " +
+                    String.Join(", ", castConversions.Keys.ToArray()));
+                RecursiveConstruction(expression.Expression);
+            }
+            else
+            {
+                Write(expression.GetLeadingTrivia().ToFullString());
+                Write(castConversions[castType]);
+                Write("(");
+                RecursiveConstruction(expression.Expression);
+                Write(")");
             }
         }
 
