@@ -9,5 +9,6 @@ namespace StneApi
     public abstract class StneProgram
     {
         public abstract void Main();
+        protected CScriptContext ScriptContext { get; }
     }
 }

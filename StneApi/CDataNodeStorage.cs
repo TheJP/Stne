@@ -4,7 +4,7 @@ namespace StneApi
     /// This is a type, which was automatically generated for the StneApi.
     /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
     /// </summary>
-    class CDataNodeStorage : Object
+    public class CDataNodeStorage : Object
     {
         public CDataNodeList Items { get; set; }
         public String Name { get; set; }

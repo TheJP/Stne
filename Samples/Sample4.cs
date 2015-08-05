@@ -39,7 +39,7 @@ public class Sample4 : StneProgram
         {
             WriteLine(i);
         }
-        for(Integer j = 0, k = 0; j<3; ++j, k+= 2)
+        for(Integer j = 0, k = 0; j < 3; ++j, k+= 2)
         {
             WriteLine(j + " " + k);
         }

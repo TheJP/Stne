@@ -113,9 +113,10 @@ namespace CSharp2Stne
                 else if (node is MemberAccessExpressionSyntax) { ConstructMemberAccess(node as MemberAccessExpressionSyntax); }
                 else if (node is ObjectCreationExpressionSyntax) { ConstructNewExpression(node as ObjectCreationExpressionSyntax); }
                 else if (node is ArgumentListSyntax) { ConstructArgumentList(node as ArgumentListSyntax); }
+                else if (node is BracketedArgumentListSyntax) { Write("["); ConstructCommaSeparated((node as BracketedArgumentListSyntax).Arguments); Write("]"); }
                 else if (node is CastExpressionSyntax) { ConstructExplicitCast(node as CastExpressionSyntax); }
-                else if (node is IdentifierNameSyntax) { Write((node as IdentifierNameSyntax).Identifier.ToString()); }
-                else if (node is LiteralExpressionSyntax) { Write(node.ToFullString().Replace("true", "True").Replace("false", "False")); }
+                else if (node is IdentifierNameSyntax) { Write((node as IdentifierNameSyntax).Identifier.ToString()); Write(node.GetTrailingTrivia().ToFullString()); }
+                else if (node is LiteralExpressionSyntax) { ConstructLiteral(node as LiteralExpressionSyntax); }
                 else if (node is InvocationExpressionSyntax) { ConstructInvocation(node as InvocationExpressionSyntax); }
                 else if (node is PrefixUnaryExpressionSyntax) { ConstructPreUnaryExpression(node as PrefixUnaryExpressionSyntax); }
                 else if (node is PostfixUnaryExpressionSyntax) { ConstructPostUnaryExpression(node as PostfixUnaryExpressionSyntax); }
@@ -126,15 +127,31 @@ namespace CSharp2Stne
             }
         }
 
-        private void ConstructArrayExpression(ArrayCreationExpressionSyntax arrayCreationExpressionSyntax)
+        private void ConstructLiteral(LiteralExpressionSyntax literal)
         {
+            var text = literal.ToFullString();
+            if (text.Trim() == "true" || text.Trim() == "false")
+            {
+                text = text.Replace("true", "True").Replace("false", "False");
+            }
+            Write(text);
+        }
 
+        private void ConstructArrayExpression(ArrayCreationExpressionSyntax expression)
+        {
+            if(expression.Initializer != null)
+            {
+                Write(expression.Initializer.OpenBraceToken.ToFullString());
+                ConstructCommaSeparated(expression.Initializer.Expressions);
+                Write(expression.Initializer.CloseBraceToken.ToFullString());
+            }
         }
 
         private void ConstructAssignmentExpression(AssignmentExpressionSyntax expression)
         {
             RecursiveConstruction(expression.Left);
             var op = expression.OperatorToken.ToString().Trim();
+            //Special case: compound assignements, which are not supported by stne script
             if (op == "+=" || op == "-=" || op == "*=" || op == "/=")
             {
                 Write(" = ");
@@ -182,12 +199,7 @@ namespace CSharp2Stne
         private void ConstructArgumentList(ArgumentListSyntax list)
         {
             Write("(");
-            int commas = list.Arguments.SeparatorCount;
-            foreach(var argument in list.Arguments)
-            {
-                RecursiveConstruction(argument);
-                if (--commas >= 0) { Write(", "); }
-            }
+            ConstructCommaSeparated(list.Arguments);
             Write(")");
         }
 
@@ -333,21 +345,49 @@ namespace CSharp2Stne
                 }
                 Write(ident);
                 //Special case, if it's an array
+                var writeInitializer = true;
                 if (type.StartsWith("Array<"))
                 {
                     var length = "Array<".Length;
-                    Write($"Var {variable.Identifier}[] As {type.Substring(length, type.Length - length - 1)}");
+                    Write($"Var {variable.Identifier}[");
+                    //Check if the array has rank definitions and add them
+                    var hasArrayLiteral = variable.Initializer?.DescendantNodes()
+                        ?.Select(node => node as ArrayCreationExpressionSyntax)
+                        ?.Any(node => node != null && node.Initializer != null);
+                    if (hasArrayLiteral == null || !hasArrayLiteral.Value)
+                    {
+                        var ranks = variable.Initializer?.DescendantNodes()
+                            ?.Select(node => node as ArrayRankSpecifierSyntax)
+                            ?.Where(node => node != null)
+                            ?.FirstOrDefault()?.Sizes;
+                        if (ranks != null)
+                        {
+                            writeInitializer = false;
+                            ConstructCommaSeparated(ranks.Value);
+                        }
+                    }
+                    Write($"] As {type.Substring(length, type.Length - length - 1)}");
                 }
                 else
                 {
                     Write($"Var {variable.Identifier} As {type}");
                 }
-                if(variable.Initializer != null)
+                if(writeInitializer && variable.Initializer != null)
                 {
                     Write(" = ");
                     RecursiveConstruction(variable.Initializer);
                 }
                 Writer.WriteLine(";");
+            }
+        }
+
+        private void ConstructCommaSeparated<T>(SeparatedSyntaxList<T> ranks) where T : SyntaxNode
+        {
+            var commas = ranks.Count;
+            foreach (var rank in ranks)
+            {
+                RecursiveConstruction(rank);
+                if (--commas > 0) { Write(", "); }
             }
         }
 

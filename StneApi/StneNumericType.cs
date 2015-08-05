@@ -13,6 +13,12 @@
         public static implicit operator StneNumericType(long o) => null;
         public static implicit operator StneNumericType(double o) => null;
         public static implicit operator StneApi.String(StneNumericType o) => null;
+        public static implicit operator byte (StneNumericType o) => 0;
+        public static implicit operator char (StneNumericType o) => ' ';
+        public static implicit operator short (StneNumericType o) => 0;
+        public static implicit operator int (StneNumericType o) => 0;
+        public static implicit operator long (StneNumericType o) => 0;
+        public static implicit operator double (StneNumericType o) => 0;
         public static NumericResult operator +(StneNumericType lhs, StneNumericType rhs) => null;
         public static NumericResult operator -(StneNumericType lhs, StneNumericType rhs) => null;
         public static NumericResult operator *(StneNumericType lhs, StneNumericType rhs) => null;
@@ -33,6 +39,12 @@
             public static implicit operator Integer(NumericResult o) => null;
             public static implicit operator Long(NumericResult o) => null;
             public static implicit operator Double(NumericResult o) => null;
+            public static implicit operator byte (NumericResult o) => 0;
+            public static implicit operator char (NumericResult o) => ' ';
+            public static implicit operator short (NumericResult o) => 0;
+            public static implicit operator int (NumericResult o) => 0;
+            public static implicit operator long (NumericResult o) => 0;
+            public static implicit operator double (NumericResult o) => 0;
         }
     }
 }

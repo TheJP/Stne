@@ -19,6 +19,7 @@ namespace StneApi
         public void EnableExtension() { }
         public Object GetCustomRequestArgument(String Key) { return null; }
         public void RegisterEvent(EGuiEventType EventType, CDelegate CallBack) { }
+        public void RegisterEvent(EGuiEventType EventType, CDelegate CallBack, CGuiEventFilter Filter) { }
         public void SetResult(Object Value) { }
         public void UnRegisterEvent(CDelegate CallBack) { }
         public void WriteAppLog(String Text) { }
