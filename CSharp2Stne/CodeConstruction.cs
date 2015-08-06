@@ -332,7 +332,17 @@ namespace CSharp2Stne
                 }
             }
             Write($"{expression.Expression}".Replace("this.", "This."));
-            RecursiveConstruction(expression.ArgumentList);
+            //Special case AddressOf (AddressOf is a keyword in stne script).
+            if (expression.Expression.ToString().Trim() == "AddressOf")
+            {
+                Write(" ");
+                //This removes the '(' and ')' brackets
+                RecursiveConstruction(expression.ArgumentList.Arguments);
+            }
+            else
+            {
+                RecursiveConstruction(expression.ArgumentList);
+            }
         }
 
         private void ConstructVariable(VariableDeclarationSyntax declaration)
