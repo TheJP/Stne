@@ -105,6 +105,7 @@ namespace CSharp2Stne
                 else if (node is ForStatementSyntax) { ConstructForStatement(node as ForStatementSyntax); }
                 else if (node is ForEachStatementSyntax) { ConstructForEachStatement(node as ForEachStatementSyntax); }
                 else if (node is ThrowStatementSyntax) { Error("Excptions are not supported", node); }
+                else if (node is SwitchStatementSyntax) { Error("Switch statements are not supported", node); }
                 else if (node is VariableDeclarationSyntax) { ConstructVariable(node as VariableDeclarationSyntax); }
                 else if (node is ArrayCreationExpressionSyntax) { ConstructArrayExpression(node as ArrayCreationExpressionSyntax); }
                 else if (node is BreakStatementSyntax) { Error("Break statements are not supported.", node); }

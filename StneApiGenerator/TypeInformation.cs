@@ -117,9 +117,6 @@ namespace StneApiGenerator
                 }
             }
 
-            //Make identifiers distinct, because the api seems to have duplicate entries sometimes
-            result.Elements = result.Elements.Distinct(new ElementComparer()).ToList();
-
             return result;
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using StneApi;
+﻿using StneApi;
 using static StneApi.CScriptGlobal;
 
 /// <summary>
