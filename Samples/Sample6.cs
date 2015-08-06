@@ -32,7 +32,23 @@ public class Sample6 : StneWebProgram
 
     private void RowAddedCallBack(CGuiEventOnTableAfterRowAdded e)
     {
-        CMyShip ship = (CMyShip)e.DataObject;
+        var ship = (CMyShip)e.DataObject;
         var cell = e.Row.Controls[e.Row.Count - 2];
+        var div = new CHtmlDiv();
+        if(ship.LRSShipSlots > ship.Definition.Slots)
+        {
+            var nTab = new CTable(1);
+            nTab.Style.Add("width", "32px");
+            nTab.Style.Add("height", "32px");
+            var nRow = nTab.AddRow();
+            nRow[0].Add(ship.LRSShipSlots);
+            nRow[0].CssClass = "nbz";
+            nRow[0].Style.Add("color", "#33FF33");
+            div.Add(nTab);
+        }
+        cell.Add(div.GuiControl);
+        div.Style.Add("background-image", "url(" + ship.GalaxyMapItem.GetImage().Url + ")");
+        div.Style.Add("width", "32px");
+        div.Style.Add("height", "32px");
     }
 }

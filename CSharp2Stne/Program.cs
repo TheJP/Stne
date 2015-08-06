@@ -21,7 +21,7 @@ namespace CSharp2Stne
         /// </summary>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        private void Compile(FileInfo source, FileInfo target)
+        private void Compile(FileInfo source, FileInfo target, bool showWarnings)
         {
             //Read File
             string sourceCode;
@@ -38,31 +38,43 @@ namespace CSharp2Stne
                 .AddReferences(MetadataReference.CreateFromFile(typeof(StneApi.Object).Assembly.Location))
                 .AddSyntaxTrees(tree);
             var model = compilation.GetSemanticModel(tree);
-            //var nameInfo = model.GetSymbolInfo(root.Usings[0].Name);
-            //var systemSymbol = (INamespaceSymbol)nameInfo.Symbol;
 
             //Create script code
             using (var writer = new StreamWriter(target.Open(FileMode.Create, FileAccess.Write, FileShare.None)))
             {
-                var code = new CodeConstruction(Console.Out, model);
+                var code = new CodeConstruction(Console.Out, model, showWarnings);
                 code.ConstructCode(root.Members);
             }
+        }
+
+        static void StopWithUsage()
+        {
+            var name = System.AppDomain.CurrentDomain.FriendlyName;
+            Console.Error.WriteLine($"Usage: {name} [options] <source-file-path> [<target-file-path>]");
+            Console.Error.WriteLine("Options");
+            Console.Error.WriteLine("=======");
+            Console.Error.WriteLine("--no-warnings\tHide warnings");
+            Environment.Exit(0);
         }
 
         static void Main(string[] args)
         {
             //Check command line arguments
-            if(args.Length < 1 || args.Length > 2 || !File.Exists(args[0]))
+            if(args.Length < 1 || args.Length > 3)
             {
-                var name = System.AppDomain.CurrentDomain.FriendlyName;
-                Console.Error.WriteLine($"Usage: {name} <source-file-path> [<target-file-path>]");
-                Environment.Exit(0);
+                StopWithUsage();
             }
 
             //Start compilation
-            var source = new FileInfo(args[0]);
-            var target = new FileInfo(args.Length > 1 ? args[1] : DefaultTargetName);
-            new Program().Compile(source, target);
+            var arg = 0;
+            while (args[arg].StartsWith("--")) { ++arg; }
+            if (arg >= args.Length || !File.Exists(args[arg]))
+            {
+                StopWithUsage();
+            }
+            var source = new FileInfo(args[arg++]);
+            var target = new FileInfo(arg < args.Length ? args[arg++] : DefaultTargetName);
+            new Program().Compile(source, target, !args.Contains("--no-warnings"));
         }
     }
 }

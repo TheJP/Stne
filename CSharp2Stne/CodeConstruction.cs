@@ -16,8 +16,9 @@ namespace CSharp2Stne
     {
         const int IdentSize = 4;
         private string mainClass = null;
-        private TextWriter Writer { get; set; }
-        private SemanticModel Model { get; set; }
+        private TextWriter Writer { get; }
+        private SemanticModel Model { get; }
+        private bool ShowWarnings { get; }
         private Dictionary<string, string> castConversions = new Dictionary<string, string>()
         {
             ["String"] = "CStr",
@@ -44,10 +45,11 @@ namespace CSharp2Stne
         }
         private String CurrentType { get; set; } = null;
 
-        public CodeConstruction(TextWriter writer, SemanticModel model)
+        public CodeConstruction(TextWriter writer, SemanticModel model, bool showWarnings = true)
         {
             this.Writer = writer;
             this.Model = model;
+            this.ShowWarnings = showWarnings;
         }
 
         /// <summary>
@@ -505,7 +507,7 @@ namespace CSharp2Stne
 
         private void Warn(string text, SyntaxNode node = null)
         {
-            Log("Warning", text, node);
+            if (ShowWarnings) { Log("Warning", text, node); }
         }
 
         private void Error(string text, SyntaxNode node = null)

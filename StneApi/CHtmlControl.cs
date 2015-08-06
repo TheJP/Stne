@@ -31,6 +31,7 @@ namespace StneApi
         public IEnumerator<CHtmlControl> GetEnumerator() { return null; }
         public Boolean HasControls() { return null; }
         public void Insert(Integer Index, CHtmlControl Child) { }
+        public void Insert(Integer Index, String Text) { }
         public void Reverse() { }
         public void Sort(IComparer Comparer) { }
 
