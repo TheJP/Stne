@@ -15,5 +15,9 @@ public class Sample5 : StneShipPortal
         Array<Integer> b = new Integer[5,n*2];
         Integer n2 = b[4, 0];
         WriteLine(n + " " + n2);
+        foreach(var i in a)
+        {
+            WriteLine(i + " is in a");
+        }
     }
 }

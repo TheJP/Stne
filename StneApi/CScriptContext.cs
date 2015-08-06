@@ -11,6 +11,7 @@ namespace StneApi
         public Boolean ExtensionIsRunning { get; set; }
         public Boolean ServiceEnabled { get; set; }
         public String ServiceName { get; set; }
+        /// <summary> Does not work as of 06.08.2015. A possible workaround might be, to exit out of the main method with return.</summary>
         public void AbortScript() { }
         public void ActivateEvents() { }
         public void ActivateService() { }

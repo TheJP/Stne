@@ -1,3 +1,5 @@
+using System;
+
 namespace StneApi
 {
     /// <summary>
@@ -42,7 +44,23 @@ namespace StneApi
         public static Double CDbl(StneNumericType n) { return null; }
         /// <summary> True results in 1, False results in 0 </summary>
         public static Double CDbl(Boolean n) { return null; }
-
+        public static CDelegate AddressOf(Action<CGuiEvent> action) => null;
+        public static CDelegate AddressOf(Action<CGuiEventOnGalaxyMapBeforeRender> action) => null;
+        public static CDelegate AddressOf(Action<CGuiEventOnInfoBarAfterCreate> action) => null;
+        public static CDelegate AddressOf(Action<CGuiEventOnPageBeforeCreateControls> action) => null;
+        public static CDelegate AddressOf(Action<CGuiEventOnPageBeforeExecuteAction> action) => null;
+        public static CDelegate AddressOf(Action<CGuiEventOnPageBeforeRender> action) => null;
+        public static CDelegate AddressOf(Action<CGuiEventOnTableAfterCreate> action) => null;
+        public static CDelegate AddressOf(Action<CGuiEventOnTableAfterHeadAdded> action) => null;
+        public static CDelegate AddressOf(Action<CGuiEventOnTableAfterRowAdded> action) => null;
+        public static CDelegate AddressOf(Action<CGuiEventOnTableBeforeCreate> action) => null;
+        public static CDelegate AddressOf(Action<CEvent> action) => null;
+        public static CDelegate AddressOf(Action<CEventOnCreateControls> action) => null;
+        public static CDelegate AddressOf(Action<CEventOnCreateOptions> action) => null;
+        public static CDelegate AddressOf(Action<CEventOnCreatePage> action) => null;
+        public static CDelegate AddressOf(Action<CEventOnDoAction> action) => null;
+        public static CDelegate AddressOf(Action<CEventOnInit> action) => null;
+        public static CDelegate AddressOf(Action<CEventOnRegisterEvents> action) => null;
     }
 }
 
