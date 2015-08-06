@@ -13,6 +13,7 @@ namespace StneApi
         IGuiControl Parent { get; set; }
         String TagName { get; set; }
         void Add(IGuiControl Control);
+        void Add(String Text);
         IGuiControlCollection FindByControlType(Integer GuiControl);
         IGuiControlCollection FindByID(String ID);
         IGuiControlCollection FindByTagName(String TagName);

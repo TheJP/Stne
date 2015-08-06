@@ -115,7 +115,7 @@ namespace CSharp2Stne
                 else if (node is MemberAccessExpressionSyntax) { ConstructMemberAccess(node as MemberAccessExpressionSyntax); }
                 else if (node is ObjectCreationExpressionSyntax) { ConstructNewExpression(node as ObjectCreationExpressionSyntax); }
                 else if (node is ArgumentListSyntax) { ConstructArgumentList(node as ArgumentListSyntax); }
-                else if (node is BracketedArgumentListSyntax) { Write("["); ConstructCommaSeparated((node as BracketedArgumentListSyntax).Arguments); Write("]"); }
+                else if (node is BracketedArgumentListSyntax) { ConstructBracketed(node as BracketedArgumentListSyntax); }
                 else if (node is CastExpressionSyntax) { ConstructExplicitCast(node as CastExpressionSyntax); }
                 else if (node is IdentifierNameSyntax) { Write((node as IdentifierNameSyntax).Identifier.ToString()); Write(node.GetTrailingTrivia().ToFullString()); }
                 else if (node is LiteralExpressionSyntax) { ConstructLiteral(node as LiteralExpressionSyntax); }
@@ -127,6 +127,24 @@ namespace CSharp2Stne
                 else if (node is InterpolatedStringTextSyntax) { Error("String interpolation is not supported", node); }
                 else { RecursiveConstruction(node.ChildNodes()); }
             }
+        }
+
+        private void ConstructBracketed(BracketedArgumentListSyntax list)
+        {
+            if(list.Parent is ElementAccessExpressionSyntax)
+            {
+                var type = Model.GetTypeInfo((list.Parent as ElementAccessExpressionSyntax).Expression);
+                if (!type.ToString().Trim().StartsWith("Array<"))
+                {
+                    Write(".Item(");
+                    ConstructCommaSeparated(list.Arguments);
+                    Write(")");
+                    return;
+                }
+            }
+            Write(list.OpenBracketToken.ToFullString());
+            ConstructCommaSeparated(list.Arguments);
+            Write(list.CloseBracketToken.ToFullString());
         }
 
         private void ConstructLiteral(LiteralExpressionSyntax literal)
@@ -331,7 +349,7 @@ namespace CSharp2Stne
                     Write("This.");
                 }
             }
-            Write($"{expression.Expression}".Replace("this.", "This."));
+            RecursiveConstruction(expression.Expression);
             //Special case AddressOf (AddressOf is a keyword in stne script).
             if (expression.Expression.ToString().Trim() == "AddressOf")
             {
