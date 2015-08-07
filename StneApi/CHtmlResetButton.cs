@@ -9,6 +9,7 @@ namespace StneApi
         public String Name { get; set; }
         public String Text { get; set; }
         public CHtmlResetButton(String Text, String Name, String ToolTip) { }
+        public CHtmlResetButton(String Text, String Name) { }
     }
 }
 

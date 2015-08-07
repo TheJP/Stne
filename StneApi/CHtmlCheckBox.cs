@@ -8,7 +8,8 @@ namespace StneApi
     {
         public Boolean Checked { get; set; }
         public String Text { get; set; }
-        public CHtmlCheckBox(Boolean Checked, String Name) : base(null, Name, null) { }
+        public CHtmlCheckBox(Boolean Checked, String Name) : base(null, Name, EHtmlInputType.CheckBox) { }
+        public CHtmlCheckBox(Boolean Checked, String Name, String Text) : base(null, Name, EHtmlInputType.CheckBox) { }
     }
 }
 

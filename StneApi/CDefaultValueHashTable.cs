@@ -8,7 +8,7 @@ namespace StneApi
         where K : class, StneType
         where V : class, StneType
     {
-        public Object DefaultValue;
+        public V DefaultValue;
         public Integer Count { get; set; }
         public Boolean IsFixedSize { get; set; }
         public Boolean IsReadOnly { get; set; }
@@ -20,13 +20,16 @@ namespace StneApi
         public void Add(K key, V value) { }
         public void Clear() { }
         public Object Clone() { return null; }
-        public Boolean Contains(Object key) { return null; }
-        public Boolean ContainsKey(Object key) { return null; }
-        public Boolean ContainsValue(Object value) { return null; }
+        public Boolean Contains(K key) { return null; }
+        public Boolean ContainsKey(K key) { return null; }
+        public Boolean ContainsValue(V value) { return null; }
         public void CopyTo(Array<V> array, Integer arrayIndex) { }
+        public void GetEnumerator() { }
         public void OnDeserialization(Object sender) { }
         public void Remove(K key) { }
-        public CDefaultValueHashTable(Object DefaultValue, IDictionary<K, V> Dictionary) { }
+        public CDefaultValueHashTable(V DefaultValue, IDictionary<K, V> Dictionary) { }
+        public CDefaultValueHashTable(V DefaultValue) { }
+        public CDefaultValueHashTable(V DefaultValue, Integer capacity) { }
     }
 }
 

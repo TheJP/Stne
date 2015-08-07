@@ -9,6 +9,7 @@ namespace StneApi
         public String Name { get; set; }
         public CUrl Url { get; set; }
         public CHtmlForm(CUrl Url) { }
+        public CHtmlForm() { }
     }
 }
 

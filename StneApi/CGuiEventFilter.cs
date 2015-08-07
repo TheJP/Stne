@@ -14,6 +14,7 @@ namespace StneApi
         public static CGuiEventFilter Create() { return null; }
         public Boolean Test(CGuiEventFilter Filter) { return null; }
         public CGuiEventFilter() { }
+        public CGuiEventFilter(ICollection<CGuiEventFilterBase> Filters) { }
     }
 }
 

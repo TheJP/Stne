@@ -8,7 +8,6 @@ namespace StneApi
     {
         public static Date MaxValue;
         public static Date MinValue;
-        public Date Date { get; set; }
         public Integer Day { get; set; }
         public object DayOfWeek { get; set; }
         public Integer DayOfYear { get; set; }

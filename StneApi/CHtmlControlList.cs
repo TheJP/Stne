@@ -11,11 +11,16 @@ namespace StneApi
         public Integer Add(CHtmlControl Value) { return null; }
         public Boolean Contains(CHtmlControl Value) { return null; }
         public Integer IndexOf(CHtmlControl Value, Integer Start, Integer Count) { return null; }
+        public Integer IndexOf(CHtmlControl Value) { return null; }
+        public Integer IndexOf(CHtmlControl Value, Integer Start) { return null; }
         public void Insert(Integer Index, CHtmlControl Value) { }
         public Integer LastIndexOf(CHtmlControl Value, Integer Start, Integer Count) { return null; }
+        public Integer LastIndexOf(CHtmlControl Value) { return null; }
+        public Integer LastIndexOf(CHtmlControl Value, Integer Start) { return null; }
         public void Remove(CHtmlControl Value) { }
         public void ToArray() { }
         public CHtmlControlList() { }
+        public CHtmlControlList(CHtmlControl Owner) { }
     }
 }
 

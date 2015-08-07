@@ -7,6 +7,7 @@ namespace StneApi
     public class CHtmlSmall : CHtmlControl
     {
         public CHtmlSmall(String Text) { }
+        public CHtmlSmall() { }
     }
 }
 

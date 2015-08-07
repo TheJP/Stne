@@ -11,6 +11,8 @@ namespace StneApi
         public static Integer ColumnSpan(IGuiControl Cell) { return null; }
         public static IGuiControl InsertCell(IGuiControl row, Integer Index) { return null; }
         public static void MergeRow(IGuiControl row, Integer Start, Integer Count) { }
+        public static void MergeRow(IGuiControl row, Integer Start) { }
+        public static void MergeRow(IGuiControl row) { }
         public static void SetColumnSpan(IGuiControl Cell, Integer Value) { }
         /// <summary> Sets the number of columns in the given table to the givne integer. </summary>
         /// <param name="Table">Table, in which the number of columns should be changed.</param>

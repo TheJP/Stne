@@ -35,7 +35,7 @@ namespace StneApi
         public static Integer BinarySearch(Array<T> array, Integer index, Integer length, T value) { return null; }
         public static void Clear(Array<T> array, Integer index, Integer length) { }
         public Object Clone() { return null; }
-        public static void ConstrainedCopy(Array<T> sourceArray, Integer sourceIndex, Array<T> destinationArray, Integer destinationIndex, Integer length) { } { }
+        public static void ConstrainedCopy(Array<T> sourceArray, Integer sourceIndex, Array<T> destinationArray, Integer destinationIndex, Integer length) { }
         public static void Copy(Array<T> sourceArray, Integer sourceIndex, Array<T> destinationArray, Integer destinationIndex, Integer length) { }
         public static void Copy(Array<T> sourceArray, Array<T> destinationArray, Integer length) { }
         public void CopyTo(Array<T> array, Integer index) { }

@@ -12,6 +12,7 @@ namespace StneApi
         public Boolean Special { get; set; }
         public Boolean TradableOnCommodityExchenge { get; set; }
         public static CHtmlImage GetImage(EGoodsType WarenTyp) { return null; }
+        public CHtmlImage GetImage() { return null; }
         public static String GetName(EGoodsType WarenTyp) { return null; }
         public CGoodsInfo(EGoodsType WarenTyp) { }
     }

@@ -16,6 +16,7 @@ namespace StneApi
         public Integer StartY { get; set; }
         public Integer Width { get; set; }
         public CHtmlGalaxyMapItem this[Integer PosX, Integer PosY] { get { return null; } set { } }
+        public CHtmlGalaxyMapItem this[SPoint Coords] { get { return null; } set { } }
         public CHtmlControl CreateControl() { return null; }
         public CHtmlGalaxyMap(SMap Map, SPoint StartPos, Integer Width, Integer Height) { }
     }

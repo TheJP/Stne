@@ -8,6 +8,7 @@ namespace StneApi
     {
         public CUrl Url { get; set; }
         public CHtmlHyperLink() { }
+        public CHtmlHyperLink(CUrl Url, String Text) { }
     }
 }
 

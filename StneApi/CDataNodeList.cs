@@ -10,7 +10,11 @@ namespace StneApi
         public CDataNode LastNode { get; set; }
         public CDataNode Parent { get; set; }
         public CDataNode this[String Key] { get { return null; } set { } }
+        public CDataNode this[String Key, Boolean ShowExceptionIfNotExists] { get { return null; } set { } }
         public CDataNode Add(String Key, Object Value) { return null; }
+        public CDataNode Add(String Key) { return null; }
+        public void Add(IDictionary<String, CDataNode> dic) { }
+        public CDataNode Add(String Key, String Value) { return null; }
         public CDataNode AddBoolean(String Key, Boolean Value) { return null; }
         public CDataNode AddDate(String Key, Date Value) { return null; }
         public CDataNode AddDouble(String Key, Double Value) { return null; }
@@ -22,8 +26,10 @@ namespace StneApi
         public CDataNodeList CreateSortedList(IComparer Comparer, Boolean LinkNodes) { return null; }
         public void FillDictionary(IDictionary<String, CDataNode> dic) { }
         public CDataNode FindNode(String Path, String Delimiter, Boolean ShowExceptionIfNotExists) { return null; }
+        public CDataNode FindNode(String Path) { return null; }
         public static CDataNodeList FromString(String Expression) { return null; }
         public CDataNode GetNode(String Path, String Delimiter) { return null; }
+        public CDataNode GetNode(String Path) { return null; }
         public Integer IndexOfKey(String Key) { return null; }
         public Integer IndexOfValue(CDataNode Value) { return null; }
         public CDataNode ItemByIndex(Integer Index) { return null; }
@@ -31,7 +37,8 @@ namespace StneApi
         public void Remove(String Key) { }
         public void Rename(String Key, String NewKey) { }
         public CDataNodeList Sort(IComparer Comparer) { return null; }
-        public CDataNodeList() : base(null, null) { }
+        public CDataNodeList() { }
+        public CDataNodeList(IComparer Comparer) { }
     }
 }
 

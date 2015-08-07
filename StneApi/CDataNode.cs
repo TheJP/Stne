@@ -26,6 +26,7 @@ namespace StneApi
         public static Boolean CheckKey(String Key, Boolean ShowException) { return null; }
         public void Detach() { }
         public String GetPath() { return null; }
+        public String GetPath(String Delimiter) { return null; }
         public void Rename(String NewKey) { }
     }
 }

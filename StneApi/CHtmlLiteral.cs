@@ -8,6 +8,7 @@ namespace StneApi
     {
         public String Text { get; set; }
         public CHtmlLiteral(String Text) { }
+        public CHtmlLiteral() { }
     }
 }
 

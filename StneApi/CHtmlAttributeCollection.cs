@@ -8,9 +8,11 @@ namespace StneApi
     {
         public String this[String Key] { get { return null; } set { } }
         public void Add(String Key) { }
+        public void Add(String Key, String Value, Boolean Encode) { }
+        public void Add(String Key, String Value) { }
         public Boolean ContainsKey(String Key) { return null; }
         public void Remove(String Key) { }
-        public CHtmlAttributeCollection() : base(null) { }
+        public CHtmlAttributeCollection() { }
     }
 }
 

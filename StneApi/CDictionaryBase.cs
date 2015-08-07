@@ -18,8 +18,10 @@ namespace StneApi
         public void AddHash(IDictionary<K, V> HashTable, Boolean OverWriteIfKeyExists) { }
         public void Clear() { }
         public void CopyTo(Array<V> array, Integer index) { }
+        public void GetEnumerator() { }
         public Boolean IsEmpty() { return null; }
         public CDictionaryBase(IDictionary<K, V> Dictionary) { }
+        public CDictionaryBase() { }
     }
 }
 

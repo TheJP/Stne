@@ -9,6 +9,7 @@ namespace StneApi
         public String Text { get; set; }
         public CUrl Url { get; set; }
         public CHtmlLinkButton(String Text, CUrl Url, String ToolTip) { }
+        public CHtmlLinkButton(String Text, CUrl Url) { }
     }
 }
 

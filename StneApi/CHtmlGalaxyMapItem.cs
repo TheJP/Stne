@@ -12,6 +12,7 @@ namespace StneApi
         public CUrl Url { get; set; }
         public void AddOverlay(CHtmlControl Control) { }
         public void AddToolTip(CHtmlControl Control) { }
+        public void AddToolTip(String Text) { }
     }
 }
 

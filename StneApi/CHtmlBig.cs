@@ -7,6 +7,7 @@ namespace StneApi
     public class CHtmlBig : CHtmlControl
     {
         public CHtmlBig(String Text) { }
+        public CHtmlBig() { }
     }
 }
 

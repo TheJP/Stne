@@ -9,26 +9,45 @@ namespace StneApi
         public static Char MaxValue;
         public static Char MinValue;
         public Integer CompareTo(Char value) { return null; }
+        public Integer CompareTo(Object value) { return null; }
         public static String ConvertFromUtf32(Integer utf32) { return null; }
         public static Integer ConvertToUtf32(Char highSurrogate, Char lowSurrogate) { return null; }
+        public static Integer ConvertToUtf32(String s, Integer index) { return null; }
         public static Double GetNumericValue(String s, Integer index) { return null; }
+        public static Double GetNumericValue(Char c) { return null; }
         public void GetTypeCode() { }
         public static void GetUnicodeCategory(String s, Integer index) { }
+        public static void GetUnicodeCategory(Char c) { }
         public static Boolean IsControl(Char c) { return null; }
+        public static Boolean IsControl(String s, Integer index) { return null; }
         public static Boolean IsDigit(Char c) { return null; }
+        public static Boolean IsDigit(String s, Integer index) { return null; }
         public static Boolean IsHighSurrogate(String s, Integer index) { return null; }
+        public static Boolean IsHighSurrogate(Char c) { return null; }
         public static Boolean IsLetter(String s, Integer index) { return null; }
+        public static Boolean IsLetter(Char c) { return null; }
         public static Boolean IsLetterOrDigit(String s, Integer index) { return null; }
+        public static Boolean IsLetterOrDigit(Char c) { return null; }
         public static Boolean IsLower(Char c) { return null; }
+        public static Boolean IsLower(String s, Integer index) { return null; }
         public static Boolean IsLowSurrogate(String s, Integer index) { return null; }
+        public static Boolean IsLowSurrogate(Char c) { return null; }
         public static Boolean IsNumber(String s, Integer index) { return null; }
+        public static Boolean IsNumber(Char c) { return null; }
         public static Boolean IsPunctuation(String s, Integer index) { return null; }
+        public static Boolean IsPunctuation(Char c) { return null; }
         public static Boolean IsSeparator(Char c) { return null; }
+        public static Boolean IsSeparator(String s, Integer index) { return null; }
         public static Boolean IsSurrogate(String s, Integer index) { return null; }
+        public static Boolean IsSurrogate(Char c) { return null; }
         public static Boolean IsSurrogatePair(Char highSurrogate, Char lowSurrogate) { return null; }
+        public static Boolean IsSurrogatePair(String s, Integer index) { return null; }
         public static Boolean IsSymbol(String s, Integer index) { return null; }
+        public static Boolean IsSymbol(Char c) { return null; }
         public static Boolean IsUpper(String s, Integer index) { return null; }
+        public static Boolean IsUpper(Char c) { return null; }
         public static Boolean IsWhiteSpace(Char c) { return null; }
+        public static Boolean IsWhiteSpace(String s, Integer index) { return null; }
         public static Char Parse(String s) { return null; }
         public static Char ToLower(Char c) { return null; }
         public static Char ToLowerInvariant(Char c) { return null; }

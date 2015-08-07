@@ -12,6 +12,8 @@ namespace StneApi
         public Integer RowCount { get; set; }
         public new CHtmlListBoxItem this[Integer Index] { get { return null; } set { } }
         public CHtmlListBoxItem Add(String Caption, String Value, Boolean Selected) { return null; }
+        public CHtmlListBoxItem Add(String Caption, String Value) { return null; }
+        public Integer Add(CHtmlListBoxItem ListItem) { return null; }
         public void SortByCaption() { }
         public void SortByValue() { }
         public CHtmlListBox(String Name) { }

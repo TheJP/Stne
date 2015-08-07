@@ -7,6 +7,7 @@ namespace StneApi
     public class CEventOnRegisterEvents : CEvent
     {
         public void AddEvents(CGuiEvents events) { }
+        public void AddEvents(CGuiEvents events, CGuiEventFilterBase filter) { }
     }
 }
 

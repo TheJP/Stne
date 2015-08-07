@@ -9,6 +9,7 @@ namespace StneApi
         public String Name { get; set; }
         public String Text { get; set; }
         public CHtmlSubmitButton(String Text, String Name, String ToolTip) { }
+        public CHtmlSubmitButton(String Text, String Name) { }
     }
 }
 

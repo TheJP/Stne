@@ -7,6 +7,7 @@ namespace StneApi
     public class CHtmlLagerListe : Object
     {
         public void SetDataSource(CMyColony Kolonie) { }
+        public void SetDataSource(CMyShip Ship) { }
         public CHtmlLagerListe() { }
     }
 }

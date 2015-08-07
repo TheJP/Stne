@@ -18,7 +18,7 @@ namespace StneApi
         public Integer LastIndexOf(CColonyField Value, Integer Start, Integer Count) { return null; }
         public void Remove(CColonyField Value) { }
         public void ToArray() { }
-        public CColonyFieldList() : base(null) { }
+        public CColonyFieldList() { }
     }
 }
 

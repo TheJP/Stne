@@ -10,11 +10,15 @@ namespace StneApi
         public Integer Add(SPoint Value) { return null; }
         public Boolean Contains(SPoint Value) { return null; }
         public Integer IndexOf(SPoint Value, Integer Start) { return null; }
+        public Integer IndexOf(SPoint Value, Integer Start, Integer Count) { return null; }
+        public Integer IndexOf(SPoint Value) { return null; }
         public void Insert(Integer Index, SPoint Value) { }
         public Integer LastIndexOf(SPoint Value) { return null; }
+        public Integer LastIndexOf(SPoint Value, Integer Start) { return null; }
+        public Integer LastIndexOf(SPoint Value, Integer Start, Integer Count) { return null; }
         public void Remove(SPoint Value) { }
         public void ToArray() { }
-        public CCoordinateList() : base(null) { }
+        public CCoordinateList() { }
     }
 }
 

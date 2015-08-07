@@ -7,6 +7,7 @@ namespace StneApi
     public class CGalaxyMap : Object
     {
         public static CGalaxyMapItem Item(Integer x, Integer y) { return null; }
+        public static CGalaxyMapItem Item(SPoint pos) { return null; }
     }
 }
 
