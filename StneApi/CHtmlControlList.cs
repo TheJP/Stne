@@ -15,7 +15,7 @@ namespace StneApi
         public Integer LastIndexOf(CHtmlControl Value, Integer Start, Integer Count) { return null; }
         public void Remove(CHtmlControl Value) { }
         public void ToArray() { }
-        public CHtmlControlList() : base(null) { }
+        public CHtmlControlList() { }
     }
 }
 

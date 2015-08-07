@@ -16,17 +16,20 @@ namespace StneApi
         public ICollection<K> Keys { get; set; }
         public Object SyncRoot { get; set; }
         public ICollection<V> Values { get; set; }
-        public V this[K Key] { get { return null; } set { } }
-        public void Add(K key, V value) { }
+        public Object this[Object Key] { get { return null; } set { } }
+        public void Add(Object key, Object value) { }
         public void Clear() { }
         public Object Clone() { return null; }
-        public Boolean Contains(K key) { return null; }
-        public Boolean ContainsKey(K key) { return null; }
-        public Boolean ContainsValue(V value) { return null; }
+        public Boolean Contains(Object key) { return null; }
+        public Boolean ContainsKey(Object key) { return null; }
+        public Boolean ContainsValue(Object value) { return null; }
         public void CopyTo(Array<V> array, Integer arrayIndex) { }
+        public void GetEnumerator() { }
         public void OnDeserialization(Object sender) { }
-        public void Remove(K key) { }
+        public void Remove(Object key) { }
         public CKeyMustExistsHashTable(IDictionary<K, V> Dictionary) { }
+        public CKeyMustExistsHashTable() { }
+        public CKeyMustExistsHashTable(Integer capacity) { }
     }
 }
 

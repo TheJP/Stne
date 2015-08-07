@@ -15,7 +15,7 @@ namespace StneApi
         public Object ItemByIndex(Integer Index) { return null; }
         public Integer KeyByIndex(Integer Index) { return null; }
         public void Remove(Integer Key) { }
-        public CSortedIntegerObjectList() : base(null, null) { }
+        public CSortedIntegerObjectList() { }
     }
 }
 

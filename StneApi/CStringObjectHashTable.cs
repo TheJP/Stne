@@ -10,7 +10,9 @@ namespace StneApi
         public void Add(String Key, Object Value) { }
         public Boolean ContainsKey(String Key) { return null; }
         public void Remove(String Key) { }
-        public CStringObjectHashTable(Boolean KeyMustExists) : base(null) { }
+        public CStringObjectHashTable(Boolean KeyMustExists) { }
+        public CStringObjectHashTable() { }
+        public CStringObjectHashTable(IDictionary<String, Object> Dictionary) { }
     }
 }
 

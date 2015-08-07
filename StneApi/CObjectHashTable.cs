@@ -10,7 +10,9 @@ namespace StneApi
         public void Add(Object Key, Object Value) { }
         public Boolean ContainsKey(Object Key) { return null; }
         public void Remove(Object Key) { }
-        public CObjectHashTable(Boolean KeyMustExists) : base(null) { }
+        public CObjectHashTable(Boolean KeyMustExists) { }
+        public CObjectHashTable() { }
+        public CObjectHashTable(IDictionary<Object, Object> Dictionary) { }
     }
 }
 

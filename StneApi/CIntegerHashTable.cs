@@ -10,7 +10,9 @@ namespace StneApi
         public void Add(Integer Key, Integer Value) { }
         public Boolean ContainsKey(Integer Key) { return null; }
         public void Remove(Integer Key) { }
-        public CIntegerHashTable(Boolean KeyMustExists) : base(null) { }
+        public CIntegerHashTable(Boolean KeyMustExists) { }
+        public CIntegerHashTable(IDictionary<Integer, Integer> Dictionary) { }
+        public CIntegerHashTable() { }
     }
 }
 

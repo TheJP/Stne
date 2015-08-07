@@ -12,6 +12,7 @@ namespace StneApi
         public Integer AmountNormal(EGoodsType WarenTyp) { return null; }
         public Integer AmountSpecial(EGoodsType WarenTyp) { return null; }
         public Integer FreeStorage(EGoodsType WarenTyp) { return null; }
+        public Integer FreeStorage() { return null; }
     }
 }
 

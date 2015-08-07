@@ -14,13 +14,17 @@ namespace StneApi
         public void DeleteItemsWhere(Integer Value) { }
         public void FromString(String Expression, String Seperator) { }
         public Integer IndexOf(Integer Value, Integer Start) { return null; }
+        public Integer IndexOf(Integer Value) { return null; }
+        public Integer IndexOf(Integer Value, Integer Start, Integer Count) { return null; }
         public void Insert(Integer Index, Integer Value) { }
         public Integer LastIndexOf(Integer Value, Integer Start, Integer Count) { return null; }
+        public Integer LastIndexOf(Integer Value, Integer Start) { return null; }
+        public Integer LastIndexOf(Integer Value) { return null; }
         public void Remove(Integer Value) { }
         public String Text(String Seperator) { return null; }
         public void ToArray() { }
         public Integer ValueCount(Integer Value) { return null; }
-        public CIntegerList() : base(null) { }
+        public CIntegerList() { }
     }
 }
 

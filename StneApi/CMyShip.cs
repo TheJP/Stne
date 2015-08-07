@@ -46,6 +46,7 @@ namespace StneApi
         public Double WarpCore { get; set; }
         public Boolean WarpCoreIsActive { get; set; }
         public CHtmlControl CreateItemGUI(Integer ItemID, String Method, CSortedStringObjectList Parameters) { return null; }
+        public CHtmlControl CreateItemGUI(Integer ItemID, String Method, CSortedStringObjectList Parameters, CScriptUrl BaseUrl) { return null; }
         public Object InvokeItem(Integer ItemID, String Method, CSortedStringObjectList Parameters) { return null; }
         public CMyShip(Integer ShipID) { }
     }

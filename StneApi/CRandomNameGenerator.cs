@@ -7,7 +7,9 @@ namespace StneApi
     public class CRandomNameGenerator : Object
     {
         public String Next() { return null; }
+        public String Next(Integer MinSyllables, String MaxSyllables) { return null; }
         public CRandomNameGenerator(CRandomNumberGeneratorBase NumberGenerator) { }
+        public CRandomNameGenerator() { }
     }
 }
 

@@ -29,7 +29,9 @@ namespace StneApi
         public CColonyField FieldByID(Integer FeldID) { return null; }
         public CColonyField FieldByPosition(String Position) { return null; }
         public Integer GetBalance(EGoodsType Type) { return null; }
-        public CMyColony(Integer KolonieID) : base(null, null, null) { }
+        public CMyColony(Integer KolonieID) : base(KolonieID) { }
+        public CMyColony(Integer PosX, Integer PosY) : base(PosX, PosY) { }
+        public CMyColony(Integer PosX, Integer PosY, SMap Map) : base(PosX, PosY, Map) { }
     }
 }
 

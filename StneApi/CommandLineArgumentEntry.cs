@@ -8,8 +8,8 @@ namespace StneApi
     {
         public String IndexPrefix;
         public String Name;
-        public object Childeren { get; set; }
-        public object Collection { get; set; }
+        public Object Childeren { get; set; }
+        public Object Collection { get; set; }
         public Boolean IsCollection { get; set; }
         public Boolean IsFlag { get; set; }
         public Boolean IsIndexed { get; set; }

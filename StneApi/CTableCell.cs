@@ -16,6 +16,8 @@ namespace StneApi
         public void Remove(Boolean SetColumnSpan) { }
         public void SetAllBorders(String StyleExpression) { }
         public CTableCell(CHtmlControl Child, String CssClass) { }
+        public CTableCell() { }
+        public CTableCell(String Text, String CssClass) { }
     }
 }
 

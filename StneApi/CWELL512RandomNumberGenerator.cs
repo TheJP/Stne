@@ -7,6 +7,7 @@ namespace StneApi
     public class CWELL512RandomNumberGenerator : CRandomNumberGeneratorBase
     {
         public CWELL512RandomNumberGenerator() { }
+        public CWELL512RandomNumberGenerator(Integer Seed) { }
     }
 }
 

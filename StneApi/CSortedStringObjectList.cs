@@ -10,7 +10,8 @@ namespace StneApi
         public void Add(String Key, Object Value) { }
         public Boolean ContainsKey(String Key) { return null; }
         public void Remove(String Key) { }
-        public CSortedStringObjectList() : base(null) { }
+        public CSortedStringObjectList() { }
+        public CSortedStringObjectList(IDictionary<String, Object> Dictionary) { }
     }
 }
 

@@ -7,6 +7,7 @@ namespace StneApi
     public class CXorShift128RandomNumberGenerator : CRandomNumberGeneratorBase
     {
         public CXorShift128RandomNumberGenerator() { }
+        public CXorShift128RandomNumberGenerator(Integer Seed) { }
     }
 }
 

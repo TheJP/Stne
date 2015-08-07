@@ -8,9 +8,12 @@ namespace StneApi
     {
         public String this[String Key] { get { return null; } set { } }
         public void Add(String Key, String Value) { }
+        public void Add(String Key, Object Value) { }
         public Boolean ContainsKey(String Key) { return null; }
         public void Remove(String Key) { }
-        public CStringHashTable(IDictionary<String, String> Dictionary) : base(Dictionary) { }
+        public CStringHashTable(IDictionary<String, String> Dictionary) { }
+        public CStringHashTable() { }
+        public CStringHashTable(Boolean KeyMustExists) { }
     }
 }
 

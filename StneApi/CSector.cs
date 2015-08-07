@@ -16,6 +16,8 @@ namespace StneApi
         public EGalaxyMapItemType Type { get; set; }
         public String TypeName { get; set; }
         public CSector(Integer PosX, Integer PosY, SMap Map) { }
+        public CSector(Integer PosX, Integer PosY) { }
+        public CSector(Integer SektorID) { }
     }
 }
 

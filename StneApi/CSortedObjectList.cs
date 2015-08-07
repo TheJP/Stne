@@ -26,6 +26,7 @@ namespace StneApi
         public Boolean ContainsValue(Object value) { return null; }
         public void CopyTo(Array<Object> array, Integer arrayIndex) { }
         public Object GetByIndex(Integer index) { return null; }
+        public void GetEnumerator() { }
         public Object GetKey(Integer index) { return null; }
         public IList<Object> GetKeyList() { return null; }
         public IList<Object> GetValueList() { return null; }
@@ -39,6 +40,11 @@ namespace StneApi
         public void SetByIndex(Integer index, Object value) { }
         public void TrimToSize() { }
         public CSortedObjectList(IDictionary<Object, Object> Dictionary, IComparer Comparer) { }
+        public CSortedObjectList(IDictionary<Object, Object> Dictionary) { }
+        public CSortedObjectList() { }
+        public CSortedObjectList(IComparer Comparer, Integer Capacity) { }
+        public CSortedObjectList(Integer initialCapacity) { }
+        public CSortedObjectList(IComparer Comparer) { }
     }
 }
 

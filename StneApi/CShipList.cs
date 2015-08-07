@@ -13,12 +13,16 @@ namespace StneApi
         public Boolean ContainsShipID(Integer ShipID) { return null; }
         public Boolean ContainsUserID(Integer UserID) { return null; }
         public Integer IndexOf(CBaseShip Value, Integer Start, Integer Count) { return null; }
+        public Integer IndexOf(CBaseShip Value) { return null; }
+        public Integer IndexOf(CBaseShip Value, Integer Start) { return null; }
         public void Insert(Integer Index, CBaseShip Value) { }
         public Integer LastIndexOf(CBaseShip Value, Integer Start) { return null; }
+        public Integer LastIndexOf(CBaseShip Value) { return null; }
+        public Integer LastIndexOf(CBaseShip Value, Integer Start, Integer Count) { return null; }
         public CMyShip My(Integer Index) { return null; }
         public void Remove(CBaseShip Value) { }
         public void ToArray() { }
-        public CShipList() : base(null) { }
+        public CShipList() { }
     }
 }
 

@@ -26,6 +26,11 @@ namespace StneApi
         public void RemoveAt(Integer Index) { }
         public void TrimToSize() { }
         public CSortedListBase(IDictionary<K, V> Dictionary, IComparer Comparer) { }
+        public CSortedListBase(IComparer Comparer, Integer Capacity) { }
+        public CSortedListBase(IDictionary<K, V> Dictionary) { }
+        public CSortedListBase(Integer initialCapacity) { }
+        public CSortedListBase(IComparer Comparer) { }
+        public CSortedListBase() { }
     }
 }
 

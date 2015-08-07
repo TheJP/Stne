@@ -16,7 +16,7 @@ namespace StneApi
         public String ItemByIndex(Integer Index) { return null; }
         public String KeyByIndex(Integer Index) { return null; }
         public void Remove(String Key) { }
-        public CSortedStringList() : base(null, null) { }
+        public CSortedStringList() { }
     }
 }
 

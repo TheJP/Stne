@@ -10,8 +10,13 @@ namespace StneApi
         public new CTableCell this[Integer Index] { get { return null; } set { } }
         public void Add(CTableCell Cell) { }
         public void Merge() { }
+        public void Merge(Integer Start, Integer Count) { }
+        public void Merge(Integer Start) { }
         public CControlTableCell Select() { return null; }
+        public CControlTableCell Select(Integer Start, Integer Count) { return null; }
+        public CControlTableCell Select(Integer Start) { return null; }
         public CTableRow() { }
+        public CTableRow(Integer CellCount) { }
     }
 }
 
