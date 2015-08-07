@@ -1,16 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace StneApi
 {
     /// <summary>
-    /// This is a type, which was automatically generated for the StneApi.
-    /// More Infos and the source code can be found here: http://github.com/TheJP/Stne
+    /// Use this attribute on a class to specify, that all it's members are globally accessible.
     /// </summary>
-    public class Global : Object
-    {
-        public static Integer ColonyID { get; set; }
-        public static Integer ShipID { get; set; }
-        public static Integer UserID { get; set; }
-        public static CGuiEvents AddGuiEvents(CGuiEventFilter filter) { return null; }
-        public Global() { }
-    }
+    [AttributeUsage(AttributeTargets.Class)]
+    public class Global : Attribute { }
 }
-

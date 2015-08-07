@@ -66,9 +66,10 @@ namespace CSharp2Stne
                 .SelectMany(node => node.Value)
                 .Select(node => ((node?.Type as IdentifierNameSyntax)?.Identifier)?.Text)
                 .Where(node => Program.StneProgramClasses.Contains(node)).FirstOrDefault();
-            if (basename == "StneWebProgram") { WriteCode("#UseInterface Web;"); }
-            else if (basename == "StneShipPortal") { WriteCode("#UseInterface Web, ShipPortal;"); }
-            else if (basename == "StneColonyPortal") { WriteCode("#UseInterface Web, ColonyPortal;"); }
+            if (basename == nameof(StneApi.StneWebProgram)) { WriteCode("#UseInterface Web;"); }
+            else if (basename == nameof(StneApi.StneShipPortal)) { WriteCode("#UseInterface Web, ShipPortal;"); }
+            else if (basename == nameof(StneApi.StneColonyPortal)) { WriteCode("#UseInterface Web, ColonyPortal;"); }
+            else if (basename == nameof(StneApi.StneExtensionProgram)) { WriteCode("#UseInterface Web, Gui;"); }
             //Construct code
             RecursiveConstruction(nodes);
             //Call bootstrap method
@@ -114,7 +115,9 @@ namespace CSharp2Stne
                 else if (node is ArrowExpressionClauseSyntax) { Error("Lambda expressions are not supported", node); }
                 else if (node is TypeParameterSyntax) { Error("Generics are not supported", node); }
                 else if (node is ThisExpressionSyntax) { Write("This"); }
+                else if (node is ConditionalExpressionSyntax) { Error("Trinary Expressions (Conditional Expressions) are not supported", node); }
                 else if (node is MemberAccessExpressionSyntax) { ConstructMemberAccess(node as MemberAccessExpressionSyntax); }
+                else if (node is ConditionalAccessExpressionSyntax) { Error("Conditional Access Operators (?.) are not supported", node); }
                 else if (node is ObjectCreationExpressionSyntax) { ConstructNewExpression(node as ObjectCreationExpressionSyntax); }
                 else if (node is ArgumentListSyntax) { ConstructArgumentList(node as ArgumentListSyntax); }
                 else if (node is BracketedArgumentListSyntax) { ConstructBracketed(node as BracketedArgumentListSyntax); }
@@ -234,8 +237,14 @@ namespace CSharp2Stne
 
         private void ConstructMemberAccess(MemberAccessExpressionSyntax expression)
         {
-            RecursiveConstruction(expression.Expression);
-            Write(expression.OperatorToken.ToString()); //Always '.' operator
+            //Check for global attribute
+            var type = Model.GetTypeInfo(expression.Expression).Type;
+            if (!type.GetAttributes().Any(attribute => attribute.AttributeClass.Name == nameof(StneApi.Global)))
+            {
+                //Only write type, if it is not a global scope identifier
+                RecursiveConstruction(expression.Expression);
+                WriteOperator(expression.OperatorToken);
+            }
             Write(expression.Name.ToString());
         }
 
@@ -456,28 +465,45 @@ namespace CSharp2Stne
         {
             Func<BaseTypeSyntax, string> getTypeString = type => ((type.Type as IdentifierNameSyntax)?.Identifier)?.Text;
             //Check if type is entry point
-            if (declaration.BaseList.Types.Any(type => StneProgramClasses.Contains(getTypeString(type))))
+            if (declaration.BaseList != null && declaration.BaseList.Types.Any(type => StneProgramClasses.Contains(getTypeString(type))))
             {
                 if (mainClass == null) { mainClass = declaration.Identifier.Text; }
                 else { Error("Found multiple entry points for program. " +
                     $"Only one class is allowed to extend one of the following classes: {String.Join(", ", StneProgramClasses)}.", declaration); }
             }
             //Generate inheritance list
-            var inheritanceString = String.Join(", ", declaration.BaseList.Types
+            var inheritanceString = declaration.BaseList == null ? "" :
+                String.Join(", ", declaration.BaseList.Types
                 .Select(getTypeString)
                 .Where(type => type != null && !StneProgramClasses.Contains(type))
                 .ToArray());
             if (!String.IsNullOrWhiteSpace(inheritanceString)) { Error("Inheritance is not supported.", declaration); }
+            //Check if globals attribute is specified
+            var isGlobal = false;
+            foreach(var list in declaration.AttributeLists)
+            {
+                foreach(var attribute in list.Attributes)
+                {
+                    isGlobal = isGlobal || attribute.Name.ToString() == nameof(StneApi.Global);
+                }
+            }
             //Write class declaration
-            WriteCode($"Class {declaration.Identifier}" +
-                (String.IsNullOrWhiteSpace(inheritanceString) ? "" : $" : {inheritanceString}"));
-            WriteCode("{");
-            CurrentType = declaration.Identifier.ToString();
-            ++Ident;
-            RecursiveConstruction(declaration.Members);
-            --Ident;
-            CurrentType = null;
-            WriteCode("}");
+            if (isGlobal)
+            {
+                RecursiveConstruction(declaration.Members);
+            }
+            else
+            {
+                WriteCode($"Class {declaration.Identifier}" +
+                    (String.IsNullOrWhiteSpace(inheritanceString) ? "" : $" : {inheritanceString}"));
+                WriteCode("{");
+                CurrentType = declaration.Identifier.ToString();
+                ++Ident;
+                RecursiveConstruction(declaration.Members);
+                --Ident;
+                CurrentType = null;
+                WriteCode("}");
+            }
         }
 
         private void WriteOperator(SyntaxToken op)

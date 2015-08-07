@@ -7,8 +7,11 @@ namespace StneApi
     public class CControlBuilder : Object
     {
         public static CHtmlControl BracketLink(CUrl Url, String Text) { return null; }
+        public static CHtmlControl BracketLink(CUrl Url, CHtmlControl Text) { return null; }
+        public static CHtmlControl BracketLink(CUrl Url, CHtmlControl Text, String Tooltip, String Target, String CssClass) { return null; }
         public static CHtmlStneButtonContainer stneInput(String Value, String Name, EHtmlInputType Type) { return null; }
         public static CTable SubmitReset(String Text, String SubmitButtonName) { return null; }
+        public static CTable SubmitReset(String Text) { return null; }
     }
 }
 
