@@ -9,6 +9,7 @@ namespace StneApi
         public static String FalseString;
         public static String TrueString;
         public Integer CompareTo(Object obj) { return null; }
+        public Integer CompareTo(Boolean value) { return null; }
         public void GetTypeCode() { }
         public static Boolean Parse(String value) { return null; }
         public static implicit operator Boolean(bool o) => null;

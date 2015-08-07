@@ -7,8 +7,11 @@ namespace StneApi
     public class Random : Object
     {
         public Integer Next(Integer minValue, Integer maxValue) { return null; }
+        public Integer Next() { return null; }
+        public Integer Next(Integer maxValue) { return null; }
         public Double NextDouble() { return null; }
         public Random(Integer Seed) { }
+        public Random() { }
     }
 }
 

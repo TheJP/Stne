@@ -10,8 +10,12 @@ namespace StneApi
         public Integer Add(CColonyField Value) { return null; }
         public Boolean Contains(CColonyField Value) { return null; }
         public Integer IndexOf(CColonyField Value, Integer Start) { return null; }
+        public Integer IndexOf(CColonyField Value, Integer Start, Integer Count) { return null; }
+        public Integer IndexOf(CColonyField Value) { return null; }
         public void Insert(Integer Index, CColonyField Value) { }
         public Integer LastIndexOf(CColonyField Value) { return null; }
+        public Integer LastIndexOf(CColonyField Value, Integer Start) { return null; }
+        public Integer LastIndexOf(CColonyField Value, Integer Start, Integer Count) { return null; }
         public void Remove(CColonyField Value) { }
         public void ToArray() { }
         public CColonyFieldList() : base(null) { }

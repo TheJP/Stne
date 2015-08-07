@@ -8,6 +8,7 @@ namespace StneApi
     {
         public static Date MaxValue;
         public static Date MinValue;
+        public Date Date { get; set; }
         public Integer Day { get; set; }
         public object DayOfWeek { get; set; }
         public Integer DayOfYear { get; set; }
@@ -33,12 +34,14 @@ namespace StneApi
         public Date AddYears(Integer value) { return null; }
         public static Integer Compare(Date t1, Date t2) { return null; }
         public Integer CompareTo(Date value) { return null; }
+        public Integer CompareTo(Object value) { return null; }
         public static Integer DaysInMonth(Integer year, Integer month) { return null; }
         public static Date FromBinary(Long dateData) { return null; }
         public static Date FromFileTime(Long fileTime) { return null; }
         public static Date FromFileTimeUtc(Long fileTime) { return null; }
         public static Date FromOADate(Double d) { return null; }
         public void GetDateTimeFormats(Char format) { }
+        public void GetDateTimeFormats() { }
         public void GetTypeCode() { }
         public Boolean IsDaylightSavingTime() { return null; }
         public static Boolean IsLeapYear(Integer year) { return null; }
@@ -62,6 +65,9 @@ namespace StneApi
         public String ToShortTimeString() { return null; }
         public Date ToUniversalTime() { return null; }
         public Date(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second, Integer millisecond) { }
+        public Date(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second) { }
+        public Date(Long ticks) { }
+        public Date(Integer year, Integer month, Integer day) { }
         public static implicit operator String(Date o) => null;
     }
 }

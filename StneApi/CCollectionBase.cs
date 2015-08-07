@@ -23,14 +23,19 @@ namespace StneApi
         public void RemoveAt(Integer Index) { }
         public void RemoveRange(Integer Index, Integer Count) { }
         public void Reverse(Integer Index, Integer Count) { }
+        public void Reverse() { }
         public void SetRange(Integer Index, ICollection<T> col) { }
         public void Sort() { }
+        public void Sort(Integer Index, Integer Count, IComparer Comparer) { }
+        public void Sort(IComparer Comparer) { }
         public void TrimToSize() { }
 
         System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator() => null;
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => null;
 
         public CCollectionBase(Integer Capacity) { }
+        public CCollectionBase() { }
+        public CCollectionBase(ICollection<T> col) { }
     }
 }
 

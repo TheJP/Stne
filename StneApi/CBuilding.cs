@@ -7,7 +7,7 @@ namespace StneApi
     public class CBuilding : Object
     {
         public Boolean Active { get; set; }
-        public object BuildingType { get; set; }
+        public Object BuildingType { get; set; }
         public CColony Colony { get; set; }
         public CColonyField Field { get; set; }
         public Integer FieldID { get; set; }

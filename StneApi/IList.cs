@@ -9,10 +9,10 @@ namespace StneApi
         Boolean IsFixedSize { get; set; }
         Boolean IsReadOnly { get; set; }
         T this[Integer index] { get; set; }
-        Integer Add(Object value);
+        Integer Add(T value);
         void Clear();
-        Boolean Contains(Object value);
-        Integer IndexOf(Object value);
+        Boolean Contains(T value);
+        Integer IndexOf(T value);
         void Insert(Integer index, T value);
         void Remove(T value);
         void RemoveAt(Integer index);

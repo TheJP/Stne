@@ -9,6 +9,7 @@ namespace StneApi
         public static Byte MaxValue = 255;
         public static Byte MinValue = 0;
         public Integer CompareTo(Object value) { return null; }
+        public Integer CompareTo(Byte value) { return null; }
         public void GetTypeCode() { }
         public static Byte Parse(String s) { return null; }
         public static implicit operator Byte(byte o) => null;

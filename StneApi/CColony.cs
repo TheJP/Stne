@@ -9,6 +9,8 @@ namespace StneApi
         public String Name { get; set; }
         public Integer UserID { get; set; }
         public CColony(Integer PosX, Integer PosY, SMap Map) : base(PosX, PosY, Map) { }
+        public CColony(Integer PosX, Integer PosY) : base(PosX, PosY, null) { }
+        public CColony(Integer KolonieID) : base(null, null, null) { }
     }
 }
 

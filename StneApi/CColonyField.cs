@@ -10,7 +10,7 @@ namespace StneApi
         public CColony Colony { get; set; }
         public SPoint Coordinates { get; set; }
         public Integer FieldID { get; set; }
-        public object FieldType { get; set; }
+        public Object FieldType { get; set; }
         public Boolean HasBuilding { get; set; }
         public Boolean IsEmpty { get; set; }
         public Boolean IsInOrbit { get; set; }

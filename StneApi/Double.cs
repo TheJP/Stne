@@ -13,6 +13,7 @@ namespace StneApi
         public static Double NegativeInfinity;
         public static Double PositiveInfinity;
         public Integer CompareTo(Double value) { return null; }
+        public Integer CompareTo(Object value) { return null; }
         public void GetTypeCode() { }
         public static Boolean IsInfinity(Double d) { return null; }
         public static Boolean IsNaN(Double d) { return null; }

@@ -17,6 +17,9 @@ namespace StneApi
         public static SMapPosition FromString(String Expression) { return null; }
         public void ToJs() { }
         public SMapPosition(Integer PosX, Integer PosY, Boolean InOrbit) { }
+        public SMapPosition(Integer PosX, Integer PosY, Boolean InOrbit, Integer MapID, Integer MapInstanceID) { }
+        public SMapPosition(SPoint Coords) { }
+        public SMapPosition(SPoint Coords, Boolean InOrbit) { }
     }
 }
 

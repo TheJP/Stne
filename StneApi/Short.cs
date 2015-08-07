@@ -9,6 +9,7 @@ namespace StneApi
         public static Short MaxValue;
         public static Short MinValue;
         public Integer CompareTo(Object value) { return null; }
+        public Integer CompareTo(Short value) { return null; }
         public void GetTypeCode() { }
         public static Short Parse(String s) { return null; }
         public static implicit operator Short(short s) => null;
