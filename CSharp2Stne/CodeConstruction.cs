@@ -12,6 +12,9 @@ using static CSharp2Stne.Program;
 
 namespace CSharp2Stne
 {
+    /// <summary>
+    /// TODO: Add documentation
+    /// </summary>
     class CodeConstruction
     {
         const int IdentSize = 4;
@@ -480,17 +483,21 @@ namespace CSharp2Stne
             if (!String.IsNullOrWhiteSpace(inheritanceString)) { Error("Inheritance is not supported.", declaration); }
             //Check if globals attribute is specified
             var isGlobal = false;
+            var isConfig = false;
             foreach(var list in declaration.AttributeLists)
             {
                 foreach(var attribute in list.Attributes)
                 {
                     isGlobal = isGlobal || attribute.Name.ToString() == nameof(StneApi.Global);
+                    isConfig = isConfig || attribute.Name.ToString() == nameof(StneApi.Config);
                 }
             }
             //Write class declaration
-            if (isGlobal)
+            if (isGlobal || isConfig)
             {
+                //Don't write class header/declaration, because it's global namespace.
                 RecursiveConstruction(declaration.Members);
+                if (isConfig) { WriteCode("#Include Config;"); }
             }
             else
             {

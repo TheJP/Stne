@@ -233,6 +233,7 @@
     <Compile Include="IGuiControl.cs" />
     <Compile Include="IGuiControlCollection.cs" />
     <Compile Include="IList.cs" />
+    <Compile Include="IncludeConfig.cs" />
     <Compile Include="Integer.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Long.cs" />
