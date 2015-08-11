@@ -115,6 +115,8 @@ namespace CSharp2Stne
                 else if (node is VariableDeclarationSyntax) { ConstructVariable(node as VariableDeclarationSyntax); }
                 else if (node is ArrayCreationExpressionSyntax) { ConstructArrayExpression(node as ArrayCreationExpressionSyntax); }
                 else if (node is BreakStatementSyntax) { Error("Break statements are not supported.", node); }
+                else if (node is GotoStatementSyntax) { Error("Goto statements are not supported", node); }
+                else if (node is ContinueStatementSyntax) { Error("Continue statements are not supported", node); }
                 else if (node is ArrowExpressionClauseSyntax) { Error("Lambda expressions are not supported", node); }
                 else if (node is TypeParameterSyntax) { Error("Generics are not supported", node); }
                 else if (node is ThisExpressionSyntax) { Write("This"); }
