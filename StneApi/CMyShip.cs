@@ -10,6 +10,7 @@ namespace StneApi
         public EAutoPilotType AutoPilotType { get; set; }
         public Double BussardCollectorHeating { get; set; }
         public CUser CoPilot { get; set; }
+        public CColony Colony { get; set; }
         public Integer CoPilotID { get; set; }
         public Boolean DamageControlActive { get; set; }
         public Integer DefendingShipID { get; set; }
@@ -28,7 +29,7 @@ namespace StneApi
         public Double LRSShipSlots { get; set; }
         public Integer LRSSize { get; set; }
         public Boolean MainComputerIsActive { get; set; }
-        public object Maneuver { get; set; }
+        public Object Maneuver { get; set; }
         public Boolean ManeuverActive { get; set; }
         public Double ManeuverRessourceMin { get; set; }
         public Double ManeuverTransferMax { get; set; }

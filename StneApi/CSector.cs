@@ -8,7 +8,9 @@ namespace StneApi
     {
         public SPoint Coordinates { get; set; }
         public Boolean Habitable { get; set; }
+        /// <summary> True if the sector is colonised by someone. </summary>
         public Boolean IsColonised { get; set; }
+        /// <summary> True if the sector is colonised or could possibly be colonised. </summary>
         public Boolean IsColony { get; set; }
         public Boolean IsFreeSpace { get; set; }
         public Integer RegionID { get; set; }

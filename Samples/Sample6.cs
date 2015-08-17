@@ -26,18 +26,20 @@ public class Globals
 {
     public static void TableBeforeCreateCallBack(CGuiEventOnTableBeforeCreate e)
     {
-        CGuiControlHelper.SetTableColumnCount(e.Table, CGuiControlHelper.TableColumnCount(e.Table) + 1);
+        CGuiControlHelper.SetTableColumnCount(e.Table, CGuiControlHelper.TableColumnCount(e.Table) + 2);
     }
 
     public static void HeadAddedCallBack(CGuiEventOnTableAfterHeadAdded e)
     {
-        e.Row.Controls[e.Row.Count - 2].Add("Pos");
+        e.Row.Controls[e.Row.Count - 3].Add("Pos");
+        e.Row.Controls[e.Row.Count - 2].Add("Info");
     }
 
     public static void RowAddedCallBack(CGuiEventOnTableAfterRowAdded e)
     {
         var ship = (CMyShip)e.DataObject;
-        var cell = e.Row.Controls[e.Row.Count - 2];
+        //Add lrs
+        var cell = e.Row.Controls[e.Row.Count - 3];
         var div = new CHtmlDiv();
         if (ship.LRSShipSlots > ship.Definition.Slots)
         {
@@ -54,5 +56,17 @@ public class Globals
         div.Style.Add("background-image", "url(" + ship.GalaxyMapItem.GetImage().Url + ")");
         div.Style.Add("width", "32px");
         div.Style.Add("height", "32px");
+        //Add colony information
+        var cellColony = e.Row.Controls[e.Row.Count - 2];
+        if (ship.Sector.IsColonised)
+        {
+            var colony = ship.Colony;
+            var user = new CUser(colony.UserID);
+            cellColony.Add(colony.Name + " von ");
+            cellColony.Add(user.GetHtmlNameAndID().GuiControl);
+        } else
+        {
+            cellColony.Add("-");
+        }
     }
 }
