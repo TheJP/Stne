@@ -14,6 +14,7 @@ namespace CSharp2Stne
 {
     /// <summary>
     /// TODO: Add documentation
+    /// TODO: Build [Global]-Attributed classes before other classes
     /// </summary>
     class CodeConstruction
     {

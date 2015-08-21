@@ -2,28 +2,12 @@
 using static StneApi.CScriptGlobal;
 using static Globals;
 
-/// <summary>
-/// Idea and stne script from akaris. All credits to him.
-/// This is only a reimplementation in c# (proof of concept).
-/// </summary>
-public class Sample6 : StneExtensionProgram
-{
-    public override void Main()
-    {
-        ScriptContext.EnableExtension();
-
-        var filter = CGuiEventFilter.Create().AddControl(EGuiControl.ShipList_ShipTable);
-        ScriptContext.RegisterEvent(EGuiEventType.TableBeforeCreate, AddressOf(Globals.TableBeforeCreateCallBack), filter);
-        ScriptContext.RegisterEvent(EGuiEventType.TableAfterHeadAdded, AddressOf(HeadAddedCallBack), filter);
-        ScriptContext.RegisterEvent(EGuiEventType.TableAfterRowAdded, AddressOf(RowAddedCallBack), filter);
-
-        ScriptContext.ActivateEvents();
-    }
-}
-
 [Global]
 public class Globals
 {
+
+    public static Integer UserId;
+
     public static void TableBeforeCreateCallBack(CGuiEventOnTableBeforeCreate e)
     {
         CGuiControlHelper.SetTableColumnCount(e.Table, CGuiControlHelper.TableColumnCount(e.Table) + 2);
@@ -61,12 +45,44 @@ public class Globals
         if (ship.Sector.IsColonised)
         {
             var colony = ship.Colony;
+            if (colony.UserID == UserId)
+            {
+                var url = CUrlBuilder.Planet(colony.SectorID);
+                var link = new CHtmlHyperLink(url, colony.Name);
+                cellColony.Add(link.GuiControl);
+            }
+            else
+            {
+                cellColony.Add(colony.Name);
+            }
+            cellColony.Add(" von ");
             var user = new CUser(colony.UserID);
-            cellColony.Add(colony.Name + " von ");
             cellColony.Add(user.GetHtmlNameAndID().GuiControl);
-        } else
+        }
+        else
         {
             cellColony.Add("-");
         }
+    }
+}
+
+/// <summary>
+/// Idea and stne script from akaris. All credits to him.
+/// This is only a reimplementation in c# (proof of concept).
+/// </summary>
+public class Sample6 : StneExtensionProgram
+{
+    public override void Main()
+    {
+        UserId = Request.UserID;
+
+        ScriptContext.EnableExtension();
+
+        var filter = CGuiEventFilter.Create().AddControl(EGuiControl.ShipList_ShipTable);
+        ScriptContext.RegisterEvent(EGuiEventType.TableBeforeCreate, AddressOf(Globals.TableBeforeCreateCallBack), filter);
+        ScriptContext.RegisterEvent(EGuiEventType.TableAfterHeadAdded, AddressOf(HeadAddedCallBack), filter);
+        ScriptContext.RegisterEvent(EGuiEventType.TableAfterRowAdded, AddressOf(RowAddedCallBack), filter);
+
+        ScriptContext.ActivateEvents();
     }
 }
