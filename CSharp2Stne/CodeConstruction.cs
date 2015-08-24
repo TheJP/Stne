@@ -15,6 +15,8 @@ namespace CSharp2Stne
     /// <summary>
     /// TODO: Add documentation
     /// TODO: Build [Global]-Attributed classes before other classes
+    /// TODO: Reference lines in error messages
+    /// TODO: Add support for stne service scripts
     /// </summary>
     class CodeConstruction
     {
@@ -115,6 +117,10 @@ namespace CSharp2Stne
                 else if (node is SwitchStatementSyntax) { Error("Switch statements are not supported", node); }
                 else if (node is VariableDeclarationSyntax) { ConstructVariable(node as VariableDeclarationSyntax); }
                 else if (node is ArrayCreationExpressionSyntax) { ConstructArrayExpression(node as ArrayCreationExpressionSyntax); }
+                else if (node is LockStatementSyntax) { Error("Locking is not needed in the single threaded stne environment", node); }
+                else if (node is UnsafeStatementSyntax) { Error("Unsafe statements are not supported", node); }
+                else if (node is CheckedStatementSyntax) { Error("Checked or unchecked statements are not supported", node); }
+                else if (node is CheckedExpressionSyntax) { Error("Checked or unchecked statements are not supported", node); }
                 else if (node is BreakStatementSyntax) { Error("Break statements are not supported.", node); }
                 else if (node is GotoStatementSyntax) { Error("Goto statements are not supported", node); }
                 else if (node is ContinueStatementSyntax) { Error("Continue statements are not supported", node); }
